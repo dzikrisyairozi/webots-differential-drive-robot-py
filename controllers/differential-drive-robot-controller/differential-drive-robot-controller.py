@@ -11,7 +11,7 @@ if __name__ == "__main__":
     
     # get the time step of the current world.
     timestep = 64
-    max_speed = 6.28
+    max_speed = 6.28 #angular velocity
     
     # You should insert a getDevice-like function in order to get the
     # instance of a device of the robot. Something like:
@@ -29,12 +29,28 @@ if __name__ == "__main__":
     right_motor.setPosition(float('inf'))
     right_motor.setVelocity(0.0)
     
+    num_side = 4
+    length_side = 0.25
+    
+    wheel_radius = 0.025
+    linear_velocity = wheel_radius *  max_speed
+    
+    duration_side = length_side/linear_velocity
+    
+    start_time = robot.getTime()
+    
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(timestep) != -1:
+    
+        current_time = robot.getTime()
         
         left_speed = 0.5 * max_speed
         right_speed = 0.5 * max_speed
+        
+        if current_time > start_time + duration_side:
+            left_speed = 0
+            right_speed = 0
         
         left_motor.setVelocity(left_speed)
         right_motor.setVelocity(right_speed)
