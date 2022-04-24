@@ -33,6 +33,11 @@ if __name__ == "__main__":
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(timestep) != -1:
         
+        left_speed = 0.5 * max_speed
+        right_speed = 0.5 * max_speed
+        
+        left_motor.setVelocity(left_speed)
+        right_motor.setVelocity(right_speed)
     
     # Enter here exit cleanup code.
     
