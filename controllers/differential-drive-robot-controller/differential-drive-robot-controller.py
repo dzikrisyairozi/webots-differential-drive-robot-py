@@ -39,6 +39,19 @@ if __name__ == "__main__":
     
     start_time = robot.getTime()
     
+    angle_of_rotation = 6.28/num_side
+    distance_between_wheels = 0.090
+    rate_of_rotation = (2 * linear_velocity)/ distance_between_wheels
+    duration_turn = angle_of_rotation/rate_of_rotation
+    
+    # 0 + duration_side => drive straight
+    # > duration_side till duration_turn => turn
+    
+    # duration_side > and < duration turn => turn
+    
+    rot_start_time = start_time + duration_side
+    rot_end_time = rot_start_time + duration_turn
+    
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(timestep) != -1:
@@ -48,9 +61,13 @@ if __name__ == "__main__":
         left_speed = 0.5 * max_speed
         right_speed = 0.5 * max_speed
         
-        if current_time > start_time + duration_side:
-            left_speed = 0
-            right_speed = 0
+        if rot_start_time < current_time < rot_end_time:
+            left_speed = -max_speed
+            right_speed = max_speed
+            
+        elif current_time > rot_end_time:
+            rot_start_time = current_time + duration_side
+            rot_end_time = rot_start_time + duration_turn
         
         left_motor.setVelocity(left_speed)
         right_motor.setVelocity(right_speed)
