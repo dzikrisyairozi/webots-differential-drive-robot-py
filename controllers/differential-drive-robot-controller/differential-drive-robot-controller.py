@@ -22,7 +22,11 @@ if __name__ == "__main__":
     left_motor = robot.getDevice('motor_1')
     right_motor = robot.getDevice('motor_2')
     
+    left_motor.setPosition(float('inf'))
+    left_motor.setVelocity(0.0)
     
+    right_motor.setPosition(float('inf'))
+    right_motor.setVelocity(0.0)
     
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
