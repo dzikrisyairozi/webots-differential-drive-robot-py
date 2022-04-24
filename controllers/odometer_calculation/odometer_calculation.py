@@ -77,7 +77,7 @@ def run_robot(robot):
         
         
         left_motor.setVelocity(max_speed)
-        right_motor.setVelocity(max_speed)
+        right_motor.setVelocity(-max_speed)
         
         for ind in range(2):
             last_ps_values[ind] = ps_values[ind]
