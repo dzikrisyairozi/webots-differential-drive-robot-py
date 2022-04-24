@@ -74,10 +74,10 @@ def run_robot(robot):
         print("robot_pose: {}".format(robot_pose))
             
         #print("distance values: {} {}".format(dist_values[0], dist_values[1]))    
-        
+
         
         left_motor.setVelocity(max_speed)
-        right_motor.setVelocity(-max_speed)
+        right_motor.setVelocity(max_speed)
         
         for ind in range(2):
             last_ps_values[ind] = ps_values[ind]
