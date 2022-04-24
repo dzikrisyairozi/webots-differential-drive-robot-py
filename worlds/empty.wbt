@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.10216352558601054 -0.10363907812778002 -0.9893541102783474 4.715998071694099
-  position 0.0396863146330451 -1.0243863551130084 0.4822756379932551
+  orientation -0.28137634432884356 -0.24107363913826976 0.928822293748792 4.4859315721578765
+  position 0.04665336813930552 0.44322583148168965 0.21251564728736078
 }
 TexturedBackground {
 }
@@ -78,6 +78,29 @@ Robot {
         boundingObject USE wheel
         physics USE wheel_physics
       }
+    }
+    Solid {
+      translation 0.015 0.045 0.07
+      children [
+        DEF eye Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "solid(2)"
+    }
+    Solid {
+      translation -0.015 0.045 0.07
+      children [
+        USE eye
+      ]
+      name "solid(3)"
     }
   ]
   boundingObject USE body
