@@ -106,4 +106,5 @@ Robot {
   boundingObject USE body
   physics Physics {
   }
+  controller "differential-drive-robot-controller"
 }
