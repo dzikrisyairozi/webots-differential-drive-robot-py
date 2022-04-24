@@ -7,6 +7,7 @@ from controller import Robot
 def run_robot(robot):
     # get the time step of the current world.
     timestep = 64
+    max_speed = 6.28
     
     #Motor Instances
     left_motor = robot.getDevice('motor_1')
@@ -18,20 +19,28 @@ def run_robot(robot):
     right_motor.setPosition(float('inf'))
     right_motor.setVelocity(0.0)
     
+    #Posisiton sensor instances
+    left_ps = robot.getDevice('ps_1')
+    left_ps.enable(timestep)
+    
+    right_ps = robot.getDevice('ps_2')
+    right_ps.enable(timestep)
+    
+    ps_values = [0, 0]
+    
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(timestep) != -1:
-        # Read the sensors:
-        # Enter here functions to read sensor data, like:
-        #  val = ds.getValue()
-    
-        # Process sensor data here.
-    
-        # Enter here functions to send actuator commands, like:
-        #  motor.setPosition(10.0)
-        pass
-    
-    # Enter here exit cleanup code.
+        # Read values from position sensor
+        ps_values[0] = left_ps.getValue()
+        ps_values[1] = right_ps.getValue()
+        
+        print("=====================")
+        print("position sensor values: {} {}".format(ps_values[0], ps_values[1]))
+        
+        left_motor.setVelocity(max_speed)
+        right_motor.setVelocity(max_speed)
+
     
 
 if __name__ == "__main__":
