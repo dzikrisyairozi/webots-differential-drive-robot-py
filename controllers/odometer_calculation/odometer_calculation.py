@@ -27,6 +27,14 @@ def run_robot(robot):
     right_ps.enable(timestep)
     
     ps_values = [0, 0]
+    dist_values = [0, 0]
+    
+    #compute encoder unit
+    wheel_radius = 0.025
+    
+    wheel_circum = 2 * 3.14 * wheel_radius
+    encoder_unit = wheel_circum/6.28
+    
     
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
@@ -37,6 +45,12 @@ def run_robot(robot):
         
         print("=====================")
         print("position sensor values: {} {}".format(ps_values[0], ps_values[1]))
+        
+        for ind in range(2):
+            dist_values[ind] = ps_values[ind] * encoder_unit
+            
+        print("distance values: {} {}".format(dist_values[0], dist_values[1]))    
+        
         
         left_motor.setVelocity(max_speed)
         right_motor.setVelocity(max_speed)
