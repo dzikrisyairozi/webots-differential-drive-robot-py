@@ -10,7 +10,8 @@ if __name__ == "__main__":
     robot = Robot()
     
     # get the time step of the current world.
-    timestep = int(robot.getBasicTimeStep())
+    timestep = 64
+    max_speed = 6.28
     
     # You should insert a getDevice-like function in order to get the
     # instance of a device of the robot. Something like:
@@ -31,15 +32,7 @@ if __name__ == "__main__":
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(timestep) != -1:
-        # Read the sensors:
-        # Enter here functions to read sensor data, like:
-        #  val = ds.getValue()
-    
-        # Process sensor data here.
-    
-        # Enter here functions to send actuator commands, like:
-        #  motor.setPosition(10.0)
-        pass
+        
     
     # Enter here exit cleanup code.
     
