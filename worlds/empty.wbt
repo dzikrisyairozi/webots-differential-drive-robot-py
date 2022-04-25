@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.16338827488711485 0.017482635181298212 0.9864069287553338 2.9312964491066706
-  position 0.6671575174427005 -0.05901808108789813 0.2298427827184667
+  orientation -0.37880762874901447 0.05593056693225927 0.9237838232423129 2.870481623630149
+  position 1.3735031495228593 -0.3325702373003153 1.3768242374815647
 }
 TexturedBackground {
 }
@@ -12,8 +12,11 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 Robot {
-  rotation 0 1 0 0
+  translation 4.786602815329709e-10 2.0400459484335838e-20 -0.0002189560365001772
+  rotation 3.2207535509275875e-09 1 5.335033080050946e-14 8.063853951686711e-06
   children [
+    GPS {
+    }
     DEF body Transform {
       translation 0 0 0.0415
       children [
@@ -32,6 +35,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        position -1.047362779989976e-21
         anchor 0.045 0 0.025
       }
       device [
@@ -44,7 +48,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.045 0 0.025
-        rotation -1.1780384891872466e-16 1 -6.282871942331982e-16 1.57
+        rotation 3.9267897229717133e-16 1 -7.068236171937381e-16 1.5699999999999996
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -65,6 +69,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        position 6.766267024253954e-23
         anchor -0.045 0 0.025
       }
       device [
@@ -77,7 +82,7 @@ Robot {
       ]
       endPoint Solid {
         translation -0.045 0 0.025
-        rotation 3.534115467561744e-16 1 1.5707179855829973e-16 1.5699999999999985
+        rotation 3.9267953025403583e-16 1 2.356077316687846e-16 1.5699999999999987
         children [
           USE wheel
         ]
@@ -113,5 +118,5 @@ Robot {
   boundingObject USE body
   physics Physics {
   }
-  controller "odometer_calculation"
+  controller "gps-controller"
 }
