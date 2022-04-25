@@ -40,6 +40,24 @@ def run_robot(robot):
     # robot pose
     robot_pose = [0, 0, 0] #x, y, theta
     last_ps_values = [0, 0]
+
+    num_side = 4
+    length_side = 0.5
+    
+    wheel_radius = 0.025
+    linear_velocity = wheel_radius *  max_speed
+    
+    duration_side = length_side/linear_velocity
+    
+    start_time = robot.getTime()
+    
+    angle_of_rotation = 6.28/num_side
+    distance_between_wheels = 0.090
+    rate_of_rotation = (2 * linear_velocity)/ distance_between_wheels
+    duration_turn = angle_of_rotation/rate_of_rotation
+    
+    rot_start_time = start_time + duration_side
+    rot_end_time = rot_start_time + duration_turn
     
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
@@ -75,14 +93,24 @@ def run_robot(robot):
             
         #print("distance values: {} {}".format(dist_values[0], dist_values[1]))    
 
+        current_time = robot.getTime()
         
-        left_motor.setVelocity(max_speed)
-        right_motor.setVelocity(max_speed)
+        left_speed = 0.5 * max_speed
+        right_speed = 0.5 * max_speed
+        
+        if rot_start_time < current_time < rot_end_time:
+            left_speed = -max_speed
+            right_speed = max_speed
+            
+        elif current_time > rot_end_time:
+            rot_start_time = current_time + duration_side
+            rot_end_time = rot_start_time + duration_turn
+        
+        left_motor.setVelocity(left_speed)
+        right_motor.setVelocity(right_speed)
         
         for ind in range(2):
             last_ps_values[ind] = ps_values[ind]
-
-    
 
 if __name__ == "__main__":
 
