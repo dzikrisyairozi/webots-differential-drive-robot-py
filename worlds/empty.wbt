@@ -2,18 +2,20 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.37880762874901447 0.05593056693225927 0.9237838232423129 2.870481623630149
-  position 1.3735031495228593 -0.3325702373003153 1.3768242374815647
+  orientation -0.35138780824837945 0.14201801421672908 0.9253958568376763 2.425794178518629
+  position 1.5646312731413012 -0.8091747352898886 1.2015461913257794
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  translation 1 1 0
+  floorSize 2 2
 }
 Robot {
-  translation 4.786602815329709e-10 2.0400459484335838e-20 -0.0002189560365001772
-  rotation 3.2207535509275875e-09 1 5.335033080050946e-14 8.063853951686711e-06
+  translation 0.1 0.1 0
+  rotation 0.00037197854692045925 0.01447512609451788 -0.9998951606826131 -3.090579247749457
   children [
     GPS {
     }
@@ -35,7 +37,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position -1.047362779989976e-21
+        position 14.809636955439288
         anchor 0.045 0 0.025
       }
       device [
@@ -48,7 +50,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.045 0 0.025
-        rotation 3.9267897229717133e-16 1 -7.068236171937381e-16 1.5699999999999996
+        rotation 0.6695916733809867 0.3225019141808175 0.6690586717833936 2.5171856395186225
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -69,7 +71,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 6.766267024253954e-23
+        position 37.23808496491429
         anchor -0.045 0 0.025
       }
       device [
@@ -82,7 +84,7 @@ Robot {
       ]
       endPoint Solid {
         translation -0.045 0 0.025
-        rotation 3.9267953025403583e-16 1 2.356077316687846e-16 1.5699999999999987
+        rotation -0.2229063258376616 0.949054588194654 -0.22272889019664613 1.6222662198297535
         children [
           USE wheel
         ]
