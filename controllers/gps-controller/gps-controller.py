@@ -2,7 +2,7 @@
 
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, DistanceSensor
-from controller import Robot, GPS
+from controller import Robot, GPS, Keyboard
 
 if __name__ == "__main__":
 
@@ -20,6 +20,9 @@ if __name__ == "__main__":
     #  ds.enable(timestep)
     gps = GPS('gps')
     gps.enable(64)
+
+    keyboard = Keyboard()
+    keyboard.enable(64)
     
     #Motor Instances
     left_motor = robot.getDevice('motor_1')
@@ -62,14 +65,22 @@ if __name__ == "__main__":
         
         left_speed = 0.5 * max_speed
         right_speed = 0.5 * max_speed
-        
-        if rot_start_time < current_time < rot_end_time:
+
+        key = keyboard.getKey()
+        if key == ord('A'):
             left_speed = -max_speed
-            right_speed = max_speed
+            right_speed = max_speed	
+        if key == ord('D'):
+            left_speed = max_speed
+            right_speed = -max_speed
+        
+        # if rot_start_time < current_time < rot_end_time:
+            # left_speed = -max_speed
+            # right_speed = max_speed
             
-        elif current_time > rot_end_time:
-            rot_start_time = current_time + duration_side
-            rot_end_time = rot_start_time + duration_turn
+        # elif current_time > rot_end_time:
+            # rot_start_time = current_time + duration_side
+            # rot_end_time = rot_start_time + duration_turn
         
         left_motor.setVelocity(left_speed)
         right_motor.setVelocity(right_speed)
@@ -77,7 +88,7 @@ if __name__ == "__main__":
         x, y, z = gps.getValues()
         x = round(x, 2)
         y = round(y, 2)
-        print("x: {}, y: {}".format(x, y))
+        # print("x: {}, y: {}".format(x, y))
     
     # Enter here exit cleanup code.
     
