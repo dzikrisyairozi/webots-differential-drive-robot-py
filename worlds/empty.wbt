@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.4851920955529382 0.6110588898515221 0.6254563642224562 1.807194496648216
-  position 0.15100855432549362 -0.3029580233717593 1.9748593102689291
+  orientation -0.29351041600854044 0.004136142863611093 0.9559469274058604 3.1146615473944697
+  position 5.449736998461379 0.27803993769684066 3.262993694691646
 }
 TexturedBackground {
 }
@@ -50,7 +50,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.045 0 0.025
-        rotation 0.6695916733809867 0.32250191418081736 0.6690586717833936 2.5171856395186225
+        rotation 0.6695916733809867 0.3225019141808173 0.6690586717833937 2.5171856395186225
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -84,7 +84,7 @@ Robot {
       ]
       endPoint Solid {
         translation -0.045 0 0.025
-        rotation -0.22290632583766148 0.949054588194654 -0.22272889019664613 1.6222662198297535
+        rotation -0.22290632583766126 0.949054588194654 -0.22272889019664613 1.6222662198297535
         children [
           USE wheel
         ]
@@ -121,4 +121,100 @@ Robot {
   physics Physics {
   }
   controller "gps-controller"
+}
+DEF YELLOW_BOX Solid {
+  translation 0.347385 0.670276 0.05
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 1 0
+        roughness 0.03934117200000009
+        metalness 0
+      }
+      geometry DEF BOX2 Box {
+        size 0.6 0.04 0.1
+      }
+    }
+  ]
+  name "yellow box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX2
+  }
+}
+DEF GREEN_BOX Solid {
+  translation 1.57 1.52 0.05
+  rotation 0 0 1 0.785398
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 0.2189099510000001
+        metalness 0
+      }
+      geometry DEF BOX0 Box {
+        size 0.1 0.38 0.4
+      }
+    }
+  ]
+  name "green box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX0
+  }
+}
+DEF BLUE_BOX Solid {
+  translation 1.12832 0.384457 0.05
+  rotation 0 0 1 0.31
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.519341125
+        metalness 0
+      }
+      geometry DEF BOX1 Box {
+        size 0.3 0.2 0.1
+      }
+    }
+  ]
+  name "blue box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX1
+  }
+}
+DEF PINK_BOX Solid {
+  translation 0.76 1.42 0.05
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.1 0.3
+        roughness 0.16827074099999995
+        metalness 0
+      }
+      geometry DEF BOX3 Box {
+        size 0.2 0.4 0.2
+      }
+    }
+  ]
+  name "red box"
+  boundingObject Shape {
+    appearance PBRAppearance {
+      roughness 1.1102230246251565e-16
+      metalness 0
+    }
+    geometry USE BOX3
+  }
 }
