@@ -15,10 +15,6 @@ if __name__ == "__main__":
     max_speed = 6.28 #angular velocity
 
     # You should insert a getDevice-like function in order to get the
-    # instance of a device of the robot. Something like:
-    #  motor = robot.getDevice('motorname')
-    #  ds = robot.getDevice('dsname')
-    #  ds.enable(timestep)
     gps = GPS('gps')
     gps.enable(timestep)
 
@@ -49,11 +45,6 @@ if __name__ == "__main__":
     distance_between_wheels = 0.090
     rate_of_rotation = (2 * linear_velocity)/ distance_between_wheels
     duration_turn = angle_of_rotation/rate_of_rotation
-
-    # 0 + duration_side => drive straight
-    # > duration_side till duration_turn => turn
-
-    # duration_side > and < duration turn => turn
 
     rot_start_time = -1
     rot_end_time = -1
@@ -101,8 +92,6 @@ if __name__ == "__main__":
 
         current_time = robot.getTime()
 
-        # left_speed = 0.5 * max_speed
-        # right_speed = 0.5 * max_speed
         left_speed = 0
         right_speed = 0
 
