@@ -14,8 +14,8 @@ RectangleArena {
   translation 1 1 0
   floorSize 2 2
 }
-Robot {
-  translation 0.1 0.1 0
+DEF robot Robot {
+  translation 0.125 0.125 0
   rotation 0 0 1 3.14159
   children [
     GPS {
