@@ -103,7 +103,9 @@ if __name__ == "__main__":
                 else:
                     left_speed = max_speed
                     right_speed = -max_speed
-            elif current_time == rot_end_time:
+            elif current_time >= rot_end_time:
+                left_speed = 0
+                right_speed = 0
                 robot_state = State.IDLE
 
         
