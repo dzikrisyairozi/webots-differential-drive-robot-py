@@ -7,3 +7,4 @@ class Direction(Enum):
 class State(Enum):
     IDLE = 1
     TURN = 2
+    MOVE_FORWARD = 3

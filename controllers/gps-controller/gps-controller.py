@@ -62,6 +62,9 @@ if __name__ == "__main__":
 
     robot_state = State.IDLE
 
+    x, y, z = gps.getValues()
+    prev_position = (x, y)
+
     def turn(direction):
         global rot_start_time, rot_end_time, turn_side, robot_state
         
@@ -73,7 +76,6 @@ if __name__ == "__main__":
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(timestep) != -1:
-
         current_time = robot.getTime()
 
         # left_speed = 0.5 * max_speed
@@ -88,7 +90,16 @@ if __name__ == "__main__":
         if key == ord('D'):
             turn(Direction.RIGHT)
 
-        print(robot_state)
+        if key == ord('W') and robot_state == State.IDLE:
+            x, y, z = gps.getValues()
+            x = round(x, 3)
+            y = round(y, 3)
+            prev_position = (x, y)
+            
+            robot_state = State.MOVE_FORWARD
+
+        if key == ord('S'):
+            robot_state = State.IDLE
         
         if robot_state == State.IDLE:
             left_speed = 0
@@ -108,13 +119,24 @@ if __name__ == "__main__":
                 right_speed = 0
                 robot_state = State.IDLE
 
+        elif robot_state == State.MOVE_FORWARD:
+            x, y, z = gps.getValues()
+            x = round(x, 3)
+            y = round(y, 3)
+            prev_x, prev_y = prev_position
+
+            print(abs(y - prev_y))
+
+            if (abs(x - prev_x) >= 0.25 or abs(y - prev_y) >= 0.25):
+                left_speed = 0
+                right_speed = 0
+                robot_state = State.IDLE
+            else:
+                left_speed = max_speed
+                right_speed = max_speed
+
         
         left_motor.setVelocity(left_speed)
         right_motor.setVelocity(right_speed)
-
-        x, y, z = gps.getValues()
-        x = round(x, 2)
-        y = round(y, 2)
-        # print("x: {}, y: {}".format(x, y))
 
     # Enter here exit cleanup code.
