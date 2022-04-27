@@ -11,7 +11,7 @@ if __name__ == "__main__":
     robot = WebotsRobot()
 
     # get the time step of the current world.
-    timestep = 64
+    timestep = 32
     max_speed = 6.28 #angular velocity
 
     # You should insert a getDevice-like function in order to get the
@@ -20,10 +20,10 @@ if __name__ == "__main__":
     #  ds = robot.getDevice('dsname')
     #  ds.enable(timestep)
     gps = GPS('gps')
-    gps.enable(64)
+    gps.enable(timestep)
 
     keyboard = Keyboard()
-    keyboard.enable(64)
+    keyboard.enable(timestep)
 
     #Motor Instances
     left_motor = robot.getDevice('motor_1')
