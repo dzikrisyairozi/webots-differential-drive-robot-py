@@ -3,7 +3,7 @@
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, DistanceSensor
 from controller import Robot as WebotsRobot, GPS, Keyboard
-from motion import Direction, State
+from motion import Direction, State, Compass
 
 if __name__ == "__main__":
 
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     length_side = 0.25
 
     wheel_radius = 0.025
-    linear_velocity = wheel_radius *  max_speed
+    linear_velocity = wheel_radius * max_speed
 
     duration_side = length_side/linear_velocity
 
@@ -65,17 +65,40 @@ if __name__ == "__main__":
     x, y, z = gps.getValues()
     prev_position = (x, y)
 
+    orientation = Compass.NORTH
+    a_compensation = 1
+
     def turn(direction):
-        global rot_start_time, rot_end_time, turn_side, robot_state
+        global rot_start_time, rot_end_time, turn_side, robot_state, orientation
         
         rot_start_time = current_time + duration_side
         rot_end_time = rot_start_time + duration_turn
         turn_side = direction
         robot_state = State.TURN
 
+        if direction == Direction.RIGHT:
+            if orientation == Compass.NORTH:
+                orientation = Compass.EAST
+            elif orientation == Compass.EAST:
+                orientation = Compass.SOUTH
+            elif orientation == Compass.SOUTH:
+                orientation = Compass.WEST
+            elif orientation == Compass.WEST:
+                orientation = Compass.NORTH
+        elif direction == Direction.LEFT:
+            if orientation == Compass.NORTH:
+                orientation = Compass.WEST
+            elif orientation == Compass.WEST:
+                orientation = Compass.SOUTH
+            elif orientation == Compass.SOUTH:
+                orientation = Compass.EAST
+            elif orientation == Compass.EAST:
+                orientation = Compass.NORTH
+
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(timestep) != -1:
+
         current_time = robot.getTime()
 
         # left_speed = 0.5 * max_speed
@@ -84,10 +107,10 @@ if __name__ == "__main__":
         right_speed = 0
 
         key = keyboard.getKey()
-        if key == ord('A'):
+        if key == ord('A')  and robot_state != State.TURN:
             turn(Direction.LEFT)
 
-        if key == ord('D'):
+        if key == ord('D') and robot_state != State.TURN:
             turn(Direction.RIGHT)
 
         if key == ord('W') and robot_state == State.IDLE:
@@ -107,13 +130,13 @@ if __name__ == "__main__":
 
         elif robot_state == State.TURN:
             if rot_start_time < current_time < rot_end_time:
-                print(rot_start_time, current_time, rot_end_time)
                 if turn_side == Direction.LEFT:
                     left_speed = -max_speed
                     right_speed = max_speed
                 else:
                     left_speed = max_speed
                     right_speed = -max_speed
+
             elif current_time >= rot_end_time:
                 left_speed = 0
                 right_speed = 0
@@ -125,15 +148,38 @@ if __name__ == "__main__":
             y = round(y, 3)
             prev_x, prev_y = prev_position
 
-            print(abs(y - prev_y))
+            dx = x - prev_x
+            dy = y - prev_y
 
-            if (abs(x - prev_x) >= 0.25 or abs(y - prev_y) >= 0.25):
+            if (abs(dx) >= 0.25 or abs(dy) >= 0.25):
                 left_speed = 0
                 right_speed = 0
                 robot_state = State.IDLE
             else:
                 left_speed = max_speed
                 right_speed = max_speed
+
+                if orientation == Compass.NORTH:
+                    if dx < 0:
+                        left_speed += a_compensation
+                    else: 
+                        right_speed += a_compensation
+                elif orientation == Compass.EAST:
+                    if dy > 0:
+                        left_speed += a_compensation
+                    else:
+                        right_speed += a_compensation
+                elif orientation == Compass.SOUTH:
+                    if dx > 0:
+                        left_speed += a_compensation
+                    else:
+                        right_speed += a_compensation
+                elif orientation == Compass.WEST:
+                    if dy < 0:
+                        left_speed += a_compensation
+                    else:
+                        right_speed += a_compensation
+                
 
         
         left_motor.setVelocity(left_speed)
