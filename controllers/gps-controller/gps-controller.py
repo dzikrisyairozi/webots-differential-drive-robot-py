@@ -54,9 +54,6 @@ if __name__ == "__main__":
     
     # duration_side > and < duration turn => turn
     
-    rot_start_time = start_time + duration_side
-    rot_end_time = rot_start_time + duration_turn
-    
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(timestep) != -1:
@@ -68,19 +65,20 @@ if __name__ == "__main__":
 
         key = keyboard.getKey()
         if key == ord('A'):
-            left_speed = -max_speed
-            right_speed = max_speed	
-        if key == ord('D'):
+            rot_start_time = current_time + duration_side
+            rot_end_time = rot_start_time + duration_turn
+
+        # if key == ord('D'):
+        #     left_speed = max_speed
+        #     right_speed = -max_speed
+        
+        if rot_start_time < current_time < rot_end_time:
             left_speed = max_speed
             right_speed = -max_speed
-        
-        # if rot_start_time < current_time < rot_end_time:
-            # left_speed = -max_speed
-            # right_speed = max_speed
             
         # elif current_time > rot_end_time:
-            # rot_start_time = current_time + duration_side
-            # rot_end_time = rot_start_time + duration_turn
+        #     rot_start_time = current_time + duration_side
+        #     rot_end_time = rot_start_time + duration_turn
         
         left_motor.setVelocity(left_speed)
         right_motor.setVelocity(right_speed)
