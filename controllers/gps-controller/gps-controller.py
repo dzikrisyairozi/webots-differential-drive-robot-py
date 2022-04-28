@@ -2,6 +2,7 @@
 
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, DistanceSensor
+from pickle import FALSE, TRUE
 from controller import Robot as WebotsRobot, GPS, Keyboard
 from enums import Direction, State, Compass
 
@@ -37,32 +38,39 @@ if __name__ == "__main__":
     wheel_radius = 0.025
     linear_velocity = wheel_radius * max_speed
 
-    duration_side = length_side/linear_velocity
+    duration_side = length_side / linear_velocity
 
-    start_time = robot.getTime()
-
-    angle_of_rotation = 6.28/num_side
+    angle_of_rotation = 6.28 / num_side
     distance_between_wheels = 0.090
-    rate_of_rotation = (2 * linear_velocity)/ distance_between_wheels
-    duration_turn = angle_of_rotation/rate_of_rotation
+    rate_of_rotation = (2 * linear_velocity) / distance_between_wheels
+    duration_turn = angle_of_rotation / rate_of_rotation
 
     rot_start_time = -1
     rot_end_time = -1
 
     turn_side = None
 
-    robot_state = State.IDLE
-
     x, y, z = gps.getValues()
     prev_position = (x, y)
 
     orientation = Compass.NORTH
-    A_COMPENSATION = 1
+    A_COMPENSATION = 1.5
 
     TILE_SIZE = 0.25
 
     current_x = 1
     current_y = 1
+
+    current_state = State.IDLE
+    prev_state = None
+    initial = FALSE
+
+    def next_state(next_state):
+        global current_state, prev_state, initial
+        prev_state = current_state
+        current_state = next_state
+
+        initial = TRUE
 
     def turn(direction):
         global rot_start_time, rot_end_time, turn_side, robot_state, orientation
@@ -70,7 +78,7 @@ if __name__ == "__main__":
         rot_start_time = current_time + duration_side
         rot_end_time = rot_start_time + duration_turn
         turn_side = direction
-        robot_state = State.TURN
+        next_state(State.TURN)
 
         if direction == Direction.RIGHT:
             if orientation == Compass.NORTH:
@@ -94,27 +102,27 @@ if __name__ == "__main__":
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(TIMESTEP) != -1:
-        # print("X: ", current_x, "Y: ", current_y)
-
+        
         current_time = robot.getTime()
 
         left_speed = 0
         right_speed = 0
 
         key = keyboard.getKey()
-        if key == ord('A')  and robot_state != State.TURN:
+
+        if key == ord('A')  and current_state != State.TURN:
             turn(Direction.LEFT)
 
-        if key == ord('D') and robot_state != State.TURN:
+        if key == ord('D') and current_state != State.TURN:
             turn(Direction.RIGHT)
 
-        if key == ord('W') and robot_state == State.IDLE:
+        if key == ord('W') and current_state == State.IDLE:
             x, y, z = gps.getValues()
             x = round(x, 3)
             y = round(y, 3)
             prev_position = (x, y)
             
-            robot_state = State.MOVE_FORWARD
+            next_state(State.MOVE_FORWARD)
 
             if orientation == Compass.NORTH:
                 current_y += 1
@@ -126,13 +134,12 @@ if __name__ == "__main__":
                 current_x -= 1
 
         if key == ord('S'):
-            robot_state = State.IDLE
-        
-        if robot_state == State.IDLE:
+            next_state(State.IDLE)
+                
+        if current_state == State.IDLE:
             left_speed = 0
             right_speed = 0
-
-        elif robot_state == State.TURN:
+        elif current_state == State.TURN:
             if rot_start_time < current_time < rot_end_time:
                 if turn_side == Direction.LEFT:
                     left_speed = -max_speed
@@ -144,31 +151,29 @@ if __name__ == "__main__":
             elif current_time >= rot_end_time:
                 left_speed = 0
                 right_speed = 0
-                robot_state = State.IDLE
-
-        elif robot_state == State.MOVE_FORWARD:
+                next_state(State.IDLE)
+        elif current_state == State.MOVE_FORWARD:
             x, y, z = gps.getValues()
             x = round(x, 3)
             y = round(y, 3)
             prev_x, prev_y = prev_position
 
-            dx = x - prev_x
-            dy = y - prev_y
-
             target_x = ((current_x - 1) * TILE_SIZE) + (TILE_SIZE / 2)
             target_y = ((current_y - 1) * TILE_SIZE) + (TILE_SIZE / 2)
+            dx = abs(x - target_x)
+            dy = abs(y - target_y)
 
-            print("Current X: ", current_x, "Current Y: ", current_y)
-            print("Target X: ", target_x, "Target Y: ", target_y)
-            print(abs(target_y - y))
+            # print("Current X: ", current_x, "Current Y: ", current_y)
+            # print("Target X: ", target_x, "Target Y: ", target_y)
+            print("Dx: ", dx, "Dy: ", dy)
 
-            reached_x = (orientation == Compass.EAST or orientation == Compass.WEST) and abs(target_x - x) <= 0.005
-            reached_y = (orientation == Compass.NORTH or orientation == Compass.SOUTH) and abs(target_y - y) <= 0.005
+            reached_x = (orientation == Compass.EAST or orientation == Compass.WEST) and (dx <= 0.005)
+            reached_y = (orientation == Compass.NORTH or orientation == Compass.SOUTH) and (dy <= 0.005)
 
             if (reached_x or reached_y):
                 left_speed = 0
                 right_speed = 0
-                robot_state = State.IDLE
+                next_state(State.IDLE)
             else:
                 left_speed = max_speed
                 right_speed = max_speed
@@ -193,9 +198,7 @@ if __name__ == "__main__":
                         left_speed += A_COMPENSATION
                     elif y > target_y:
                         right_speed += A_COMPENSATION
-                
 
-        
         left_motor.setVelocity(left_speed)
         right_motor.setVelocity(right_speed)
 
