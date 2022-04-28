@@ -170,10 +170,6 @@ if __name__ == "__main__":
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(TIMESTEP) != -1:
     # while len(state_queue) > 0:
-        if len(state_queue) <= 0:
-            if current_state == State.IDLE:
-                break
-            continue
 
         if key == 'w' and current_state == State.IDLE:
             print("abcdefu\n")
@@ -201,6 +197,11 @@ if __name__ == "__main__":
             print("IDLE\n")
             left_speed = 0
             right_speed = 0
+            
+            if len(state_queue) <= 0:
+                if current_state == State.IDLE:
+                    break
+                continue
             # key = state_queue.pop(0)
             # print(key == 'w')
 
