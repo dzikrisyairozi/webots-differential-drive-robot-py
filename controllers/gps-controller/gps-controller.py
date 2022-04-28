@@ -88,7 +88,7 @@ if __name__ == "__main__":
 
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
-    while robot.step(timestep) != -1:
+    while robot.step(TIMESTEP) != -1:
 
         current_time = robot.getTime()
 
