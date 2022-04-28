@@ -159,13 +159,7 @@ if __name__ == "__main__":
     
     orientation = Compass.NORTH
     key = state_queue.pop(0)
-
-    def wait_till_idle():
-        global current_state
-        if current_state == State.IDLE:
-            return True
-        else:
-            return False
+    print(state_queue)
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(TIMESTEP) != -1:
@@ -180,7 +174,6 @@ if __name__ == "__main__":
 
         # if state_queue.pop(0) == Direction.RIGHT and current_state != State.TURN:
         #     turn(Direction.RIGHT)
-        print(state_queue)
 
         current_time = robot.getTime()
 
@@ -199,9 +192,7 @@ if __name__ == "__main__":
             right_speed = 0
             
             if len(state_queue) <= 0:
-                if current_state == State.IDLE:
-                    break
-                continue
+                break
             # key = state_queue.pop(0)
             # print(key == 'w')
 
@@ -253,6 +244,8 @@ if __name__ == "__main__":
 
             reached_x = (orientation == Compass.EAST or orientation == Compass.WEST) and (dx <= 0.005)
             reached_y = (orientation == Compass.NORTH or orientation == Compass.SOUTH) and (dy <= 0.005)
+
+            print(orientation, dy, y, target_y, current_x)
 
             if (reached_x or reached_y):
                 left_speed = 0
