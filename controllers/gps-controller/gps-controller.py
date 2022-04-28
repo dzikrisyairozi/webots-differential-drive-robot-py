@@ -11,15 +11,15 @@ if __name__ == "__main__":
     robot = WebotsRobot()
 
     # get the time step of the current world.
-    timestep = 32
+    TIMESTEP = 32
     max_speed = 6.28 #angular velocity
 
     # You should insert a getDevice-like function in order to get the
     gps = GPS('gps')
-    gps.enable(timestep)
+    gps.enable(TIMESTEP)
 
     keyboard = Keyboard()
-    keyboard.enable(timestep)
+    keyboard.enable(TIMESTEP)
 
     #Motor Instances
     left_motor = robot.getDevice('motor_1')
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     prev_position = (x, y)
 
     orientation = Compass.NORTH
-    a_compensation = 1
+    A_COMPENSATION = 1
 
     def turn(direction):
         global rot_start_time, rot_end_time, turn_side, robot_state, orientation
@@ -150,24 +150,24 @@ if __name__ == "__main__":
 
                 if orientation == Compass.NORTH:
                     if dx < 0:
-                        left_speed += a_compensation
+                        left_speed += A_COMPENSATION
                     else: 
-                        right_speed += a_compensation
+                        right_speed += A_COMPENSATION
                 elif orientation == Compass.EAST:
                     if dy > 0:
-                        left_speed += a_compensation
+                        left_speed += A_COMPENSATION
                     else:
-                        right_speed += a_compensation
+                        right_speed += A_COMPENSATION
                 elif orientation == Compass.SOUTH:
                     if dx > 0:
-                        left_speed += a_compensation
+                        left_speed += A_COMPENSATION
                     else:
-                        right_speed += a_compensation
+                        right_speed += A_COMPENSATION
                 elif orientation == Compass.WEST:
                     if dy < 0:
-                        left_speed += a_compensation
+                        left_speed += A_COMPENSATION
                     else:
-                        right_speed += a_compensation
+                        right_speed += A_COMPENSATION
                 
 
         
