@@ -59,6 +59,9 @@ if __name__ == "__main__":
     orientation = Compass.NORTH
     A_COMPENSATION = 1
 
+    current_x = 1
+    current_y = 1
+
     def turn(direction):
         global rot_start_time, rot_end_time, turn_side, robot_state, orientation
         
@@ -89,6 +92,7 @@ if __name__ == "__main__":
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(TIMESTEP) != -1:
+        print("X: ", current_x, "Y: ", current_y)
 
         current_time = robot.getTime()
 
@@ -107,6 +111,15 @@ if __name__ == "__main__":
             x = round(x, 3)
             y = round(y, 3)
             prev_position = (x, y)
+
+            if orientation == Compass.NORTH:
+                current_y += 1
+            elif orientation == Compass.EAST:
+                current_x += 1
+            elif orientation == Compass.SOUTH:
+                current_y -= 1
+            elif orientation == Compass.WEST:
+                current_x -= 1
             
             robot_state = State.MOVE_FORWARD
 
