@@ -74,4 +74,4 @@ def get_route(start, finish):
   visited, traced, route = a_star_search(start, finish)
   return route
 
-print(get_route((1, 1), (8, 8)))
+# print(get_route((1, 1), (8, 8)))

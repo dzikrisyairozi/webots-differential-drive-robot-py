@@ -68,15 +68,9 @@ if __name__ == "__main__":
         current_state = next_state
 
         initial = True
-
-    def turn(direction):
-        global rot_start_time, rot_end_time, turn_side, robot_state, orientation
-        
-        rot_start_time = current_time + duration_side
-        rot_end_time = rot_start_time + duration_turn
-        turn_side = direction
-        next_state(State.TURN)
-
+    
+    def update_orientation(direction):
+        global orientation
         if direction == Direction.RIGHT:
             if orientation == Compass.NORTH:
                 orientation = Compass.EAST
@@ -96,50 +90,119 @@ if __name__ == "__main__":
             elif orientation == Compass.EAST:
                 orientation = Compass.NORTH
 
-    route = get_route((0, 0), (0, 2))
+    def turn(direction):
+        global rot_start_time, rot_end_time, turn_side, robot_state, orientation
+        
+        rot_start_time = current_time + duration_side
+        rot_end_time = rot_start_time + duration_turn
+        turn_side = direction
+        next_state(State.TURN)
+        update_orientation(direction)
+
+    route = get_route((0, 0), (0, 1))
     current_x, current_y = route.pop(0)
+    state_queue = []
+    
+    def append_and_update(direction):
+        global state_queue
+        state_queue.append(direction)
+        if direction == 'd':
+            update_orientation(Direction.RIGHT)
+        elif direction == 'a':
+            update_orientation(Direction.LEFT)
+
+    def append_state():
+        global state_queue, current_x, current_y
+        target_node_x, target_node_y = route.pop(0)
+
+        dx = target_node_x - current_x
+        dy = target_node_y - current_y
+
+        # print("dy: ", dy)
+
+        current_x = target_node_x
+        current_y = target_node_y
+
+        if orientation == Compass.NORTH and dy < 0:
+            append_and_update('d')
+            append_and_update('d')
+        elif orientation == Compass.NORTH and dx > 0:
+            append_and_update('d')
+        elif orientation == Compass.NORTH and dx < 0:
+            append_and_update('a')
+        elif orientation == Compass.SOUTH and dy > 0:
+            append_and_update('d')
+            append_and_update('d')
+        elif orientation == Compass.SOUTH and dx > 0:
+            append_and_update('a')
+        elif orientation == Compass.SOUTH and dx < 0:
+            append_and_update('d')
+        elif orientation == Compass.EAST and dy > 0:
+            append_and_update('a')
+        elif orientation == Compass.EAST and dy < 0:
+            append_and_update('d')
+        elif orientation == Compass.EAST and dx < 0:
+            append_and_update('d')
+            append_and_update('d')
+        elif orientation == Compass.WEST and dy > 0:
+            append_and_update('d')
+        elif orientation == Compass.WEST and dy < 0:
+            append_and_update('a')
+        elif orientation == Compass.WEST and dx > 0:
+            append_and_update('d')
+            append_and_update('d')
+
+        state_queue.append('w')
+    
+    for i in range (0, len(route)):
+        append_state()
+    
+    orientation = Compass.NORTH
+    key = state_queue.pop(0)
+
+    def wait_till_idle():
+        global current_state
+        if current_state == State.IDLE:
+            return True
+        else:
+            return False
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(TIMESTEP) != -1:
-        
+    # while len(state_queue) > 0:
+        if len(state_queue) <= 0:
+            if current_state == State.IDLE:
+                break
+            continue
+
+        if key == 'w' and current_state == State.IDLE:
+            print("abcdefu\n")
+            next_state(State.MOVE_FORWARD)
+            
+        # if state_queue.pop(0) == Direction.LEFT and current_state != State.TURN:
+        #     turn(Direction.LEFT)
+
+        # if state_queue.pop(0) == Direction.RIGHT and current_state != State.TURN:
+        #     turn(Direction.RIGHT)
+        print(state_queue)
+
         current_time = robot.getTime()
 
         left_speed = 0
         right_speed = 0
 
-        key = keyboard.getKey()
+        # key = keyboard.getKey()
 
-        if key == ord('W') and current_state == State.IDLE:
-            next_state(State.MOVE_FORWARD)
-            
-        if key == ord('A')  and current_state != State.TURN:
-            turn(Direction.LEFT)
 
-        if key == ord('D') and current_state != State.TURN:
-            turn(Direction.RIGHT)
-
-        if key == ord('S'):
-            next_state(State.IDLE)
+        # if key == ord('S'):
+        #     next_state(State.IDLE)
                 
         if current_state == State.IDLE:
+            print("IDLE\n")
             left_speed = 0
             right_speed = 0
-
-            if len(route) <= 0:
-                break
-
-            target_node_x, target_node_y = route.pop(0)
-
-            dx = target_node_x - current_x
-            dy = target_node_y - current_y
-
-            print("dy: ", dy)
-
-            current_x = target_node_x
-            current_y = target_node_y
-
-            if orientation == Compass.NORTH and dy > 0:
-                next_state(State.MOVE_FORWARD)
+            # key = state_queue.pop(0)
+            # print(key == 'w')
 
         elif current_state == State.TURN:
             if rot_start_time < current_time < rot_end_time:
