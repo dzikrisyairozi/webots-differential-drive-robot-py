@@ -174,24 +174,24 @@ if __name__ == "__main__":
                 right_speed = max_speed
 
                 if orientation == Compass.NORTH:
-                    if dx < 0:
+                    if x < target_x:
                         left_speed += A_COMPENSATION
-                    else: 
+                    elif x > target_x: 
                         right_speed += A_COMPENSATION
                 elif orientation == Compass.EAST:
-                    if dy > 0:
+                    if y > target_y:
                         left_speed += A_COMPENSATION
-                    else:
+                    elif y < target_y:
                         right_speed += A_COMPENSATION
                 elif orientation == Compass.SOUTH:
-                    if dx > 0:
+                    if x > target_x:
                         left_speed += A_COMPENSATION
-                    else:
+                    elif x < target_x:
                         right_speed += A_COMPENSATION
                 elif orientation == Compass.WEST:
-                    if dy < 0:
+                    if y < target_y:
                         left_speed += A_COMPENSATION
-                    else:
+                    elif y > target_y:
                         right_speed += A_COMPENSATION
                 
 
