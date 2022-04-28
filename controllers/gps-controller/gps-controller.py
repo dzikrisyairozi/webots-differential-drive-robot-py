@@ -54,7 +54,7 @@ if __name__ == "__main__":
     prev_position = (x, y)
 
     orientation = Compass.NORTH
-    A_COMPENSATION = 1.5
+    A_COMPENSATION = 1
 
     TILE_SIZE = 0.25
 
