@@ -3,7 +3,7 @@
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, DistanceSensor
 from controller import Robot as WebotsRobot, GPS, Keyboard
-from motion import Direction, State, Compass
+from enums import Direction, State, Compass
 
 if __name__ == "__main__":
 
