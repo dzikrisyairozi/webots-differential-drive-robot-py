@@ -5,6 +5,7 @@
 from pickle import FALSE, TRUE
 from controller import Robot as WebotsRobot, GPS, Keyboard
 from enums import Direction, State, Compass
+from maps import maps
 
 if __name__ == "__main__":
 
@@ -60,6 +61,7 @@ if __name__ == "__main__":
 
     current_x = 1
     current_y = 1
+    length_map = len(maps)
 
     current_state = State.IDLE
     prev_state = None
