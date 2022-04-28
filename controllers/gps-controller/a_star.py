@@ -32,7 +32,7 @@ def a_star_search(source, target):
       traced[current_node] = prev_node
       if current_node == target:
         route.append(current_node)
-        print("cost: ", current_cost)
+        # print("cost: ", current_cost)
         while prev_node != None:
           route.append(prev_node)
           prev_node = traced[prev_node]
@@ -71,7 +71,7 @@ def set_heuristic():
 def get_route(start, finish):
   create_edge()
   set_heuristic()
-  visited, traced, route = a_star_search((start[0] - 1, start[1] - 1), (finish[0] - 1, finish[0] - 1))
+  visited, traced, route = a_star_search(start, finish)
   return route
 
 print(get_route((1, 1), (8, 8)))

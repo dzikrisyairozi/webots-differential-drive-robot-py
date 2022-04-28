@@ -2,10 +2,9 @@
 
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, DistanceSensor
-from pickle import FALSE, TRUE
+from a_star import get_route
 from controller import Robot as WebotsRobot, GPS, Keyboard
 from enums import Direction, State, Compass
-from maps import maps
 
 if __name__ == "__main__":
 
@@ -59,13 +58,9 @@ if __name__ == "__main__":
 
     TILE_SIZE = 0.25
 
-    current_x = 1
-    current_y = 1
-    length_map = len(maps)
-
     current_state = State.IDLE
     prev_state = None
-    initial = FALSE
+    initial = False
 
     def next_state(next_state):
         global current_state, prev_state, initial
@@ -101,6 +96,8 @@ if __name__ == "__main__":
             elif orientation == Compass.EAST:
                 orientation = Compass.NORTH
 
+    route = get_route((0, 0), (0, 2))
+    current_x, current_y = route.pop(0)
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(TIMESTEP) != -1:
@@ -112,14 +109,14 @@ if __name__ == "__main__":
 
         key = keyboard.getKey()
 
+        if key == ord('W') and current_state == State.IDLE:
+            next_state(State.MOVE_FORWARD)
+            
         if key == ord('A')  and current_state != State.TURN:
             turn(Direction.LEFT)
 
         if key == ord('D') and current_state != State.TURN:
             turn(Direction.RIGHT)
-
-        if key == ord('W') and current_state == State.IDLE:
-            next_state(State.MOVE_FORWARD)
 
         if key == ord('S'):
             next_state(State.IDLE)
@@ -127,6 +124,22 @@ if __name__ == "__main__":
         if current_state == State.IDLE:
             left_speed = 0
             right_speed = 0
+
+            if len(route) <= 0:
+                break
+
+            target_node_x, target_node_y = route.pop(0)
+
+            dx = target_node_x - current_x
+            dy = target_node_y - current_y
+
+            print("dy: ", dy)
+
+            current_x = target_node_x
+            current_y = target_node_y
+
+            if orientation == Compass.NORTH and dy > 0:
+                next_state(State.MOVE_FORWARD)
 
         elif current_state == State.TURN:
             if rot_start_time < current_time < rot_end_time:
@@ -165,14 +178,14 @@ if __name__ == "__main__":
             y = round(y, 3)
             prev_x, prev_y = prev_position
 
-            target_x = ((current_x - 1) * TILE_SIZE) + (TILE_SIZE / 2)
-            target_y = ((current_y - 1) * TILE_SIZE) + (TILE_SIZE / 2)
+            target_x = ((current_x) * TILE_SIZE) + (TILE_SIZE / 2)
+            target_y = ((current_y) * TILE_SIZE) + (TILE_SIZE / 2)
             dx = abs(x - target_x)
             dy = abs(y - target_y)
 
             # print("Current X: ", current_x, "Current Y: ", current_y)
             # print("Target X: ", target_x, "Target Y: ", target_y)
-            print("Dx: ", dx, "Dy: ", dy)
+            # print("Dx: ", dx, "Dy: ", dy)
 
             reached_x = (orientation == Compass.EAST or orientation == Compass.WEST) and (dx <= 0.005)
             reached_y = (orientation == Compass.NORTH or orientation == Compass.SOUTH) and (dy <= 0.005)
