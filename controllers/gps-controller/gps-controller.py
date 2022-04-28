@@ -55,7 +55,7 @@ if __name__ == "__main__":
     prev_position = (x, y)
 
     orientation = Compass.NORTH
-    A_COMPENSATION = 1.5
+    A_COMPENSATION = 1
 
     TILE_SIZE = 0.25
 
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         prev_state = current_state
         current_state = next_state
 
-        initial = TRUE
+        initial = True
 
     def turn(direction):
         global rot_start_time, rot_end_time, turn_side, robot_state, orientation
@@ -119,21 +119,7 @@ if __name__ == "__main__":
             turn(Direction.RIGHT)
 
         if key == ord('W') and current_state == State.IDLE:
-            x, y, z = gps.getValues()
-            x = round(x, 3)
-            y = round(y, 3)
-            prev_position = (x, y)
-            
             next_state(State.MOVE_FORWARD)
-
-            if orientation == Compass.NORTH:
-                current_y += 1
-            elif orientation == Compass.EAST:
-                current_x += 1
-            elif orientation == Compass.SOUTH:
-                current_y -= 1
-            elif orientation == Compass.WEST:
-                current_x -= 1
 
         if key == ord('S'):
             next_state(State.IDLE)
@@ -141,6 +127,7 @@ if __name__ == "__main__":
         if current_state == State.IDLE:
             left_speed = 0
             right_speed = 0
+
         elif current_state == State.TURN:
             if rot_start_time < current_time < rot_end_time:
                 if turn_side == Direction.LEFT:
@@ -154,7 +141,25 @@ if __name__ == "__main__":
                 left_speed = 0
                 right_speed = 0
                 next_state(State.IDLE)
+
         elif current_state == State.MOVE_FORWARD:
+            if initial:
+                x, y, z = gps.getValues()
+                x = round(x, 3)
+                y = round(y, 3)
+                prev_position = (x, y)
+
+                if orientation == Compass.NORTH:
+                    current_y += 1
+                elif orientation == Compass.EAST:
+                    current_x += 1
+                elif orientation == Compass.SOUTH:
+                    current_y -= 1
+                elif orientation == Compass.WEST:
+                    current_x -= 1
+
+                initial = False
+
             x, y, z = gps.getValues()
             x = round(x, 3)
             y = round(y, 3)
