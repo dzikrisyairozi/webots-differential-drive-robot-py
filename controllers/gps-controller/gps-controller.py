@@ -59,6 +59,8 @@ if __name__ == "__main__":
     orientation = Compass.NORTH
     A_COMPENSATION = 1
 
+    TILE_SIZE = 0.25
+
     current_x = 1
     current_y = 1
 
@@ -92,7 +94,7 @@ if __name__ == "__main__":
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(TIMESTEP) != -1:
-        print("X: ", current_x, "Y: ", current_y)
+        # print("X: ", current_x, "Y: ", current_y)
 
         current_time = robot.getTime()
 
@@ -111,6 +113,8 @@ if __name__ == "__main__":
             x = round(x, 3)
             y = round(y, 3)
             prev_position = (x, y)
+            
+            robot_state = State.MOVE_FORWARD
 
             if orientation == Compass.NORTH:
                 current_y += 1
@@ -120,8 +124,6 @@ if __name__ == "__main__":
                 current_y -= 1
             elif orientation == Compass.WEST:
                 current_x -= 1
-            
-            robot_state = State.MOVE_FORWARD
 
         if key == ord('S'):
             robot_state = State.IDLE
@@ -153,7 +155,17 @@ if __name__ == "__main__":
             dx = x - prev_x
             dy = y - prev_y
 
-            if (abs(dx) >= 0.25 or abs(dy) >= 0.25):
+            target_x = ((current_x - 1) * TILE_SIZE) + (TILE_SIZE / 2)
+            target_y = ((current_y - 1) * TILE_SIZE) + (TILE_SIZE / 2)
+
+            print("Current X: ", current_x, "Current Y: ", current_y)
+            print("Target X: ", target_x, "Target Y: ", target_y)
+            print(abs(target_y - y))
+
+            reached_x = (orientation == Compass.EAST or orientation == Compass.WEST) and abs(target_x - x) <= 0.005
+            reached_y = (orientation == Compass.NORTH or orientation == Compass.SOUTH) and abs(target_y - y) <= 0.005
+
+            if (reached_x or reached_y):
                 left_speed = 0
                 right_speed = 0
                 robot_state = State.IDLE
