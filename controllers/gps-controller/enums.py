@@ -21,7 +21,7 @@ def get_next_orientation(current_orientation):
 
 def get_prev_orientation(current_orientation):
     if current_orientation == 1:
-        return Orientation.WEST
+        return Orientation(len(Orientation))
 
     next_orientation = Orientation((current_orientation.value - 1) % len(Orientation))
     return next_orientation
