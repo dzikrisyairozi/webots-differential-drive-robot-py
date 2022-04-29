@@ -47,6 +47,7 @@ if __name__ == "__main__":
 
     rot_start_time = -1
     rot_end_time = -1
+    current_time = 0
 
     turn_side = None
 
@@ -62,7 +63,7 @@ if __name__ == "__main__":
     prev_state = None
     initial = False
 
-    route = get_route((0, 0), (7, 7))
+    route = get_route((0, 0), (7, 2))
     current_x, current_y = route.pop(0)
     state_queue = []
 
@@ -95,7 +96,7 @@ if __name__ == "__main__":
                 orientation = Compass.NORTH
 
     def turn(direction):
-        global rot_start_time, rot_end_time, turn_side, robot_state, orientation, ongoing_motion
+        global rot_start_time, rot_end_time, current_time, turn_side, robot_state, orientation, ongoing_motion
         
         ongoing_motion += 1
         rot_start_time = current_time + duration_side
