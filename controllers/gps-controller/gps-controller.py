@@ -58,7 +58,7 @@ if __name__ == "__main__":
     prev_position = (x, y)
 
     orientation = Orientation.NORTH
-    A_COMPENSATION = 1
+    A_COMPENSATION = 0.5
 
     TILE_SIZE = 0.25
 
@@ -184,7 +184,7 @@ if __name__ == "__main__":
             yaw = imu.getRollPitchYaw()[2]
             delta_yaw = abs(target_yaw - yaw)
 
-            if delta_yaw <= 0.01:
+            if delta_yaw <= 0.05:
                 left_speed = 0
                 right_speed = 0
                 next_state(State.IDLE)
