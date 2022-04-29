@@ -9,8 +9,12 @@ class State(Enum):
     TURN = 2
     MOVE_FORWARD = 3
 
-class Compass(Enum):
+class Orientation(Enum):
     NORTH = 1
     EAST = 2
     SOUTH = 3
     WEST = 4
+
+def get_next_orientation(current_orientation):
+    next_orientation = (current_orientation + 1) % len(Orientation)
+    return next_orientation
