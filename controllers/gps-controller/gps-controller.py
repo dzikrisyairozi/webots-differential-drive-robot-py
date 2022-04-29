@@ -62,6 +62,10 @@ if __name__ == "__main__":
     prev_state = None
     initial = False
 
+    route = get_route((0, 0), (1, 6))
+    current_x, current_y = route.pop(0)
+    state_queue = []
+    
     def next_state(next_state):
         global current_state, prev_state, initial
         prev_state = current_state
@@ -91,17 +95,15 @@ if __name__ == "__main__":
                 orientation = Compass.NORTH
 
     def turn(direction):
-        global rot_start_time, rot_end_time, turn_side, robot_state, orientation
+        global rot_start_time, rot_end_time, turn_side, robot_state, orientation, count
         
+        count += 1
         rot_start_time = current_time + duration_side
         rot_end_time = rot_start_time + duration_turn
         turn_side = direction
         next_state(State.TURN)
         update_orientation(direction)
 
-    route = get_route((0, 0), (0, 1))
-    current_x, current_y = route.pop(0)
-    state_queue = []
     
     def append_and_update(direction):
         global state_queue
@@ -118,7 +120,7 @@ if __name__ == "__main__":
         dx = target_node_x - current_x
         dy = target_node_y - current_y
 
-        # print("dy: ", dy)
+        print("dy: ", dy)
 
         current_x = target_node_x
         current_y = target_node_y
@@ -157,44 +159,41 @@ if __name__ == "__main__":
     for i in range (0, len(route)):
         append_state()
     
-    orientation = Compass.NORTH
+    # print(state_queue)
     key = state_queue.pop(0)
-    print(state_queue)
+    orientation = Compass.NORTH
+    current_x = 0
+    current_y = 0
+    count = 0
+
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(TIMESTEP) != -1:
-    # while len(state_queue) > 0:
 
-        if key == 'w' and current_state == State.IDLE:
+        if key == 'w' and current_state == State.IDLE and count == 0:
             print("abcdefu\n")
             next_state(State.MOVE_FORWARD)
             
-        # if state_queue.pop(0) == Direction.LEFT and current_state != State.TURN:
-        #     turn(Direction.LEFT)
+        if key == 'a' and current_state != State.TURN and count == 0:
+            turn(Direction.LEFT)
 
-        # if state_queue.pop(0) == Direction.RIGHT and current_state != State.TURN:
-        #     turn(Direction.RIGHT)
+        if key == 'd' and current_state != State.TURN and count == 0:
+            turn(Direction.RIGHT)
 
         current_time = robot.getTime()
 
         left_speed = 0
         right_speed = 0
 
-        # key = keyboard.getKey()
-
-
-        # if key == ord('S'):
-        #     next_state(State.IDLE)
-                
         if current_state == State.IDLE:
             print("IDLE\n")
             left_speed = 0
             right_speed = 0
+            count -= 1
             
             if len(state_queue) <= 0:
                 break
-            # key = state_queue.pop(0)
-            # print(key == 'w')
+            key = state_queue.pop(0)
 
         elif current_state == State.TURN:
             if rot_start_time < current_time < rot_end_time:
@@ -212,6 +211,7 @@ if __name__ == "__main__":
 
         elif current_state == State.MOVE_FORWARD:
             if initial:
+                count += 1
                 x, y, z = gps.getValues()
                 x = round(x, 3)
                 y = round(y, 3)
@@ -238,14 +238,8 @@ if __name__ == "__main__":
             dx = abs(x - target_x)
             dy = abs(y - target_y)
 
-            # print("Current X: ", current_x, "Current Y: ", current_y)
-            # print("Target X: ", target_x, "Target Y: ", target_y)
-            # print("Dx: ", dx, "Dy: ", dy)
-
             reached_x = (orientation == Compass.EAST or orientation == Compass.WEST) and (dx <= 0.005)
             reached_y = (orientation == Compass.NORTH or orientation == Compass.SOUTH) and (dy <= 0.005)
-
-            print(orientation, dy, y, target_y, current_x)
 
             if (reached_x or reached_y):
                 left_speed = 0
@@ -278,5 +272,4 @@ if __name__ == "__main__":
 
         left_motor.setVelocity(left_speed)
         right_motor.setVelocity(right_speed)
-
     # Enter here exit cleanup code.
