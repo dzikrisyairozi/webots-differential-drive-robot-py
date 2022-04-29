@@ -4,7 +4,7 @@
 #  from controller import Robot, Motor, DistanceSensor
 from a_star import get_route
 from controller import Robot as WebotsRobot, GPS, Keyboard
-from enums import Direction, State, Compass
+from enums import Direction, State, Orientation
 
 if __name__ == "__main__":
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     x, y, z = gps.getValues()
     prev_position = (x, y)
 
-    orientation = Compass.NORTH
+    orientation = Orientation.NORTH
     A_COMPENSATION = 1
 
     TILE_SIZE = 0.25
@@ -77,23 +77,23 @@ if __name__ == "__main__":
     def update_orientation(direction):
         global orientation
         if direction == Direction.RIGHT:
-            if orientation == Compass.NORTH:
-                orientation = Compass.EAST
-            elif orientation == Compass.EAST:
-                orientation = Compass.SOUTH
-            elif orientation == Compass.SOUTH:
-                orientation = Compass.WEST
-            elif orientation == Compass.WEST:
-                orientation = Compass.NORTH
+            if orientation == Orientation.NORTH:
+                orientation = Orientation.EAST
+            elif orientation == Orientation.EAST:
+                orientation = Orientation.SOUTH
+            elif orientation == Orientation.SOUTH:
+                orientation = Orientation.WEST
+            elif orientation == Orientation.WEST:
+                orientation = Orientation.NORTH
         elif direction == Direction.LEFT:
-            if orientation == Compass.NORTH:
-                orientation = Compass.WEST
-            elif orientation == Compass.WEST:
-                orientation = Compass.SOUTH
-            elif orientation == Compass.SOUTH:
-                orientation = Compass.EAST
-            elif orientation == Compass.EAST:
-                orientation = Compass.NORTH
+            if orientation == Orientation.NORTH:
+                orientation = Orientation.WEST
+            elif orientation == Orientation.WEST:
+                orientation = Orientation.SOUTH
+            elif orientation == Orientation.SOUTH:
+                orientation = Orientation.EAST
+            elif orientation == Orientation.EAST:
+                orientation = Orientation.NORTH
 
     def turn(direction):
         global rot_start_time, rot_end_time, current_time, turn_side, robot_state, orientation, ongoing_motion
@@ -126,32 +126,32 @@ if __name__ == "__main__":
         current_x = target_node_x
         current_y = target_node_y
 
-        if orientation == Compass.NORTH and dy < 0:
+        if orientation == Orientation.NORTH and dy < 0:
             append_and_update('d')
             append_and_update('d')
-        elif orientation == Compass.NORTH and dx > 0:
+        elif orientation == Orientation.NORTH and dx > 0:
             append_and_update('d')
-        elif orientation == Compass.NORTH and dx < 0:
+        elif orientation == Orientation.NORTH and dx < 0:
             append_and_update('a')
-        elif orientation == Compass.SOUTH and dy > 0:
+        elif orientation == Orientation.SOUTH and dy > 0:
             append_and_update('d')
             append_and_update('d')
-        elif orientation == Compass.SOUTH and dx > 0:
+        elif orientation == Orientation.SOUTH and dx > 0:
             append_and_update('a')
-        elif orientation == Compass.SOUTH and dx < 0:
+        elif orientation == Orientation.SOUTH and dx < 0:
             append_and_update('d')
-        elif orientation == Compass.EAST and dy > 0:
+        elif orientation == Orientation.EAST and dy > 0:
             append_and_update('a')
-        elif orientation == Compass.EAST and dy < 0:
+        elif orientation == Orientation.EAST and dy < 0:
             append_and_update('d')
-        elif orientation == Compass.EAST and dx < 0:
+        elif orientation == Orientation.EAST and dx < 0:
             append_and_update('d')
             append_and_update('d')
-        elif orientation == Compass.WEST and dy > 0:
+        elif orientation == Orientation.WEST and dy > 0:
             append_and_update('d')
-        elif orientation == Compass.WEST and dy < 0:
+        elif orientation == Orientation.WEST and dy < 0:
             append_and_update('a')
-        elif orientation == Compass.WEST and dx > 0:
+        elif orientation == Orientation.WEST and dx > 0:
             append_and_update('d')
             append_and_update('d')
 
@@ -162,7 +162,7 @@ if __name__ == "__main__":
     
     # print(state_queue)
     key = state_queue.pop(0)
-    orientation = Compass.NORTH
+    orientation = Orientation.NORTH
     current_x = 0
     current_y = 0
     ongoing_motion = 0
@@ -216,13 +216,13 @@ if __name__ == "__main__":
                 y = round(y, 3)
                 prev_position = (x, y)
 
-                if orientation == Compass.NORTH:
+                if orientation == Orientation.NORTH:
                     current_y += 1
-                elif orientation == Compass.EAST:
+                elif orientation == Orientation.EAST:
                     current_x += 1
-                elif orientation == Compass.SOUTH:
+                elif orientation == Orientation.SOUTH:
                     current_y -= 1
-                elif orientation == Compass.WEST:
+                elif orientation == Orientation.WEST:
                     current_x -= 1
 
                 initial = False
@@ -237,8 +237,8 @@ if __name__ == "__main__":
             dx = abs(x - target_x)
             dy = abs(y - target_y)
 
-            reached_x = (orientation == Compass.EAST or orientation == Compass.WEST) and (dx <= 0.005)
-            reached_y = (orientation == Compass.NORTH or orientation == Compass.SOUTH) and (dy <= 0.005)
+            reached_x = (orientation == Orientation.EAST or orientation == Orientation.WEST) and (dx <= 0.005)
+            reached_y = (orientation == Orientation.NORTH or orientation == Orientation.SOUTH) and (dy <= 0.005)
 
             if (reached_x or reached_y):
                 left_speed = 0
@@ -248,22 +248,22 @@ if __name__ == "__main__":
                 left_speed = max_speed
                 right_speed = max_speed
 
-                if orientation == Compass.NORTH:
+                if orientation == Orientation.NORTH:
                     if x < target_x:
                         left_speed += A_COMPENSATION
                     elif x > target_x: 
                         right_speed += A_COMPENSATION
-                elif orientation == Compass.EAST:
+                elif orientation == Orientation.EAST:
                     if y > target_y:
                         left_speed += A_COMPENSATION
                     elif y < target_y:
                         right_speed += A_COMPENSATION
-                elif orientation == Compass.SOUTH:
+                elif orientation == Orientation.SOUTH:
                     if x > target_x:
                         left_speed += A_COMPENSATION
                     elif x < target_x:
                         right_speed += A_COMPENSATION
-                elif orientation == Compass.WEST:
+                elif orientation == Orientation.WEST:
                     if y < target_y:
                         left_speed += A_COMPENSATION
                     elif y > target_y:
