@@ -62,10 +62,10 @@ if __name__ == "__main__":
     prev_state = None
     initial = False
 
-    route = get_route((0, 0), (1, 6))
+    route = get_route((0, 0), (7, 7))
     current_x, current_y = route.pop(0)
     state_queue = []
-    
+
     def next_state(next_state):
         global current_state, prev_state, initial
         prev_state = current_state
@@ -95,9 +95,9 @@ if __name__ == "__main__":
                 orientation = Compass.NORTH
 
     def turn(direction):
-        global rot_start_time, rot_end_time, turn_side, robot_state, orientation, count
+        global rot_start_time, rot_end_time, turn_side, robot_state, orientation, ongoing_motion
         
-        count += 1
+        ongoing_motion += 1
         rot_start_time = current_time + duration_side
         rot_end_time = rot_start_time + duration_turn
         turn_side = direction
@@ -120,7 +120,7 @@ if __name__ == "__main__":
         dx = target_node_x - current_x
         dy = target_node_y - current_y
 
-        print("dy: ", dy)
+        # print("dy: ", dy)
 
         current_x = target_node_x
         current_y = target_node_y
@@ -164,20 +164,19 @@ if __name__ == "__main__":
     orientation = Compass.NORTH
     current_x = 0
     current_y = 0
-    count = 0
+    ongoing_motion = 0
 
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(TIMESTEP) != -1:
 
-        if key == 'w' and current_state == State.IDLE and count == 0:
-            print("abcdefu\n")
+        if key == 'w' and current_state == State.IDLE and ongoing_motion == 0:
             next_state(State.MOVE_FORWARD)
             
-        if key == 'a' and current_state != State.TURN and count == 0:
+        if key == 'a' and current_state != State.TURN and ongoing_motion == 0:
             turn(Direction.LEFT)
 
-        if key == 'd' and current_state != State.TURN and count == 0:
+        if key == 'd' and current_state != State.TURN and ongoing_motion == 0:
             turn(Direction.RIGHT)
 
         current_time = robot.getTime()
@@ -186,10 +185,9 @@ if __name__ == "__main__":
         right_speed = 0
 
         if current_state == State.IDLE:
-            print("IDLE\n")
             left_speed = 0
             right_speed = 0
-            count -= 1
+            ongoing_motion -= 1
             
             if len(state_queue) <= 0:
                 break
@@ -211,7 +209,7 @@ if __name__ == "__main__":
 
         elif current_state == State.MOVE_FORWARD:
             if initial:
-                count += 1
+                ongoing_motion += 1
                 x, y, z = gps.getValues()
                 x = round(x, 3)
                 y = round(y, 3)
