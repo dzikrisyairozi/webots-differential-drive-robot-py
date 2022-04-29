@@ -123,7 +123,7 @@ DEF robot Robot {
   boundingObject USE body
   physics Physics {
   }
-  controller "gps-controller"
+  controller "robot_controller"
 }
 DEF YELLOW_BOX Solid {
   translation 0.347385 0.670276 0.05
