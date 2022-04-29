@@ -3,7 +3,7 @@
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, DistanceSensor
 from a_star import get_route
-from controller import Robot as WebotsRobot, GPS, Keyboard
+from controller import Robot as WebotsRobot, GPS, Keyboard, InertialUnit
 from enums import *
 
 if __name__ == "__main__":
@@ -21,6 +21,9 @@ if __name__ == "__main__":
 
     keyboard = Keyboard()
     keyboard.enable(TIMESTEP)
+
+    imu = InertialUnit('inertial unit')
+    imu.enable(TIMESTEP)
 
     #Motor Instances
     left_motor = robot.getDevice('motor_1')
@@ -63,7 +66,7 @@ if __name__ == "__main__":
     prev_state = None
     initial = False
 
-    route = get_route((0, 0), (7, 2))
+    route = get_route((0, 0), (4, 5))
     current_x, current_y = route.pop(0)
     state_queue = []
 
@@ -80,12 +83,33 @@ if __name__ == "__main__":
         orientation = get_next_orientation(orientation) if direction == Direction.RIGHT else get_prev_orientation(orientation)
 
     def turn(direction):
-        global rot_start_time, rot_end_time, current_time, turn_side, robot_state, orientation, ongoing_motion
-        
+        global rot_start_time, rot_end_time, current_time, turn_side, robot_state, orientation, ongoing_motion, target_yaw
         ongoing_motion += 1
+        turn_side = direction
+
+        if orientation is Orientation.NORTH:
+            if turn_side is Direction.RIGHT:
+                target_yaw = 1.57
+            elif turn_side is Direction.LEFT:
+                target_yaw = -1.57
+        elif orientation is Orientation.EAST:
+            if turn_side is Direction.RIGHT:
+                target_yaw = 1.57
+            elif turn_side is Direction.LEFT:
+                target_yaw = 3.14
+        elif orientation is Orientation.SOUTH:
+            if turn_side is Direction.RIGHT:
+                target_yaw = -1.57
+            elif turn_side is Direction.LEFT:
+                target_yaw = 1.57
+        elif orientation is Orientation.WEST:
+            if turn_side is Direction.RIGHT:
+                target_yaw = 3.14
+            elif turn_side is Direction.LEFT:
+                target_yaw = 0
+
         rot_start_time = current_time + duration_side
         rot_end_time = rot_start_time + duration_turn
-        turn_side = direction
         next_state(State.TURN)
         update_orientation(direction)
 
@@ -104,8 +128,6 @@ if __name__ == "__main__":
 
         dx = target_node_x - current_x
         dy = target_node_y - current_y
-
-        # print("dy: ", dy)
 
         current_x = target_node_x
         current_y = target_node_y
@@ -150,11 +172,12 @@ if __name__ == "__main__":
     current_x = 0
     current_y = 0
     ongoing_motion = 0
+    target_yaw = imu.getRollPitchYaw()[2]
 
     # Main loop:
     # - perform simulation steps until Webots is stopping the controller
     while robot.step(TIMESTEP) != -1:
-
+        
         if key == 'w' and current_state == State.IDLE and ongoing_motion == 0:
             next_state(State.MOVE_FORWARD)
             
@@ -179,18 +202,20 @@ if __name__ == "__main__":
             key = state_queue.pop(0)
 
         elif current_state == State.TURN:
-            if rot_start_time < current_time < rot_end_time:
-                if turn_side == Direction.LEFT:
-                    left_speed = -max_speed
-                    right_speed = max_speed
-                else:
-                    left_speed = max_speed
-                    right_speed = -max_speed
+            yaw = imu.getRollPitchYaw()[2]
+            delta_yaw = abs(target_yaw - yaw)
 
-            elif current_time >= rot_end_time:
+            if delta_yaw <= 0.01:
                 left_speed = 0
                 right_speed = 0
                 next_state(State.IDLE)
+            else:
+                if turn_side == Direction.LEFT:
+                    left_speed = -0.5 * max_speed
+                    right_speed = 0.5 * max_speed
+                else:
+                    left_speed = 0.5 * max_speed
+                    right_speed = -0.5 * max_speed
 
         elif current_state == State.MOVE_FORWARD:
             if initial:
