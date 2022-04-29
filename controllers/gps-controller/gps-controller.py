@@ -4,7 +4,7 @@
 #  from controller import Robot, Motor, DistanceSensor
 from a_star import get_route
 from controller import Robot as WebotsRobot, GPS, Keyboard
-from enums import Direction, State, Orientation
+from enums import *
 
 if __name__ == "__main__":
 
@@ -76,24 +76,8 @@ if __name__ == "__main__":
     
     def update_orientation(direction):
         global orientation
-        if direction == Direction.RIGHT:
-            if orientation == Orientation.NORTH:
-                orientation = Orientation.EAST
-            elif orientation == Orientation.EAST:
-                orientation = Orientation.SOUTH
-            elif orientation == Orientation.SOUTH:
-                orientation = Orientation.WEST
-            elif orientation == Orientation.WEST:
-                orientation = Orientation.NORTH
-        elif direction == Direction.LEFT:
-            if orientation == Orientation.NORTH:
-                orientation = Orientation.WEST
-            elif orientation == Orientation.WEST:
-                orientation = Orientation.SOUTH
-            elif orientation == Orientation.SOUTH:
-                orientation = Orientation.EAST
-            elif orientation == Orientation.EAST:
-                orientation = Orientation.NORTH
+        
+        orientation = get_next_orientation(orientation) if direction == Direction.RIGHT else get_prev_orientation(orientation)
 
     def turn(direction):
         global rot_start_time, rot_end_time, current_time, turn_side, robot_state, orientation, ongoing_motion

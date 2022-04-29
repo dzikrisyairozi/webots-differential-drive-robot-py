@@ -18,3 +18,10 @@ class Orientation(Enum):
 def get_next_orientation(current_orientation):
     next_orientation = (current_orientation + 1) % len(Orientation)
     return next_orientation
+
+def get_prev_orientation(current_orientation):
+    if current_orientation == 1:
+        return Orientation.WEST
+
+    next_orientation = (current_orientation - 1) % len(Orientation)
+    return next_orientation
