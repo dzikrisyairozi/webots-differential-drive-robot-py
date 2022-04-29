@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.41548503644642537 0.5068031048330226 0.7553295952236487 1.652636743326667
-  position 0.03140962545045059 -1.4066158987145474 2.2049747865288882
+  orientation -0.21486952875366414 -0.028836402984788748 0.9762169571750314 3.4021468310450462
+  position 2.677190191405949 1.2216242983130017 1.406517692187379
   follow "robot"
 }
 TexturedBackground {
@@ -15,9 +15,11 @@ RectangleArena {
   floorSize 2 2
 }
 DEF robot Robot {
-  translation 0.125 0.125 0
+  translation 0.125 0.125 -0.000206461
   rotation 0 0 1 3.14159
   children [
+    InertialUnit {
+    }
     GPS {
     }
     DEF body Transform {
@@ -85,7 +87,7 @@ DEF robot Robot {
       ]
       endPoint Solid {
         translation -0.045 0 0.025
-        rotation -0.22290632583766126 0.949054588194654 -0.22272889019664613 1.6222662198297535
+        rotation -0.22290632583766148 0.949054588194654 -0.22272889019664627 1.6222662198297526
         children [
           USE wheel
         ]

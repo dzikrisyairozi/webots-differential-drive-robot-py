@@ -74,12 +74,10 @@ if __name__ == "__main__":
         global current_state, prev_state, initial
         prev_state = current_state
         current_state = next_state
-
         initial = True
     
     def update_orientation(direction):
         global orientation
-        
         orientation = get_next_orientation(orientation) if direction == Direction.RIGHT else get_prev_orientation(orientation)
 
     def turn(direction):
@@ -94,7 +92,7 @@ if __name__ == "__main__":
                 target_yaw = -1.57
         elif orientation is Orientation.EAST:
             if turn_side is Direction.RIGHT:
-                target_yaw = 1.57
+                target_yaw = 0
             elif turn_side is Direction.LEFT:
                 target_yaw = 3.14
         elif orientation is Orientation.SOUTH:
@@ -112,7 +110,6 @@ if __name__ == "__main__":
         rot_end_time = rot_start_time + duration_turn
         next_state(State.TURN)
         update_orientation(direction)
-
     
     def append_and_update(direction):
         global state_queue
@@ -132,34 +129,16 @@ if __name__ == "__main__":
         current_x = target_node_x
         current_y = target_node_y
 
-        if orientation == Orientation.NORTH and dy < 0:
+        if (orientation == Orientation.NORTH and dy < 0) or (orientation == Orientation.SOUTH and dy > 0) \
+            or (orientation == Orientation.EAST and dx < 0) or (orientation == Orientation.WEST and dx > 0):
             append_and_update('d')
             append_and_update('d')
-        elif orientation == Orientation.NORTH and dx > 0:
+        elif (orientation == Orientation.NORTH and dx > 0) or (orientation == Orientation.SOUTH and dx < 0) \
+            or (orientation == Orientation.EAST and dy < 0) or (orientation == Orientation.WEST and dy > 0):
             append_and_update('d')
-        elif orientation == Orientation.NORTH and dx < 0:
+        elif (orientation == Orientation.NORTH and dx < 0) or (orientation == Orientation.SOUTH and dx > 0) \
+            or (orientation == Orientation.EAST and dy > 0) or (orientation == Orientation.WEST and dy < 0):
             append_and_update('a')
-        elif orientation == Orientation.SOUTH and dy > 0:
-            append_and_update('d')
-            append_and_update('d')
-        elif orientation == Orientation.SOUTH and dx > 0:
-            append_and_update('a')
-        elif orientation == Orientation.SOUTH and dx < 0:
-            append_and_update('d')
-        elif orientation == Orientation.EAST and dy > 0:
-            append_and_update('a')
-        elif orientation == Orientation.EAST and dy < 0:
-            append_and_update('d')
-        elif orientation == Orientation.EAST and dx < 0:
-            append_and_update('d')
-            append_and_update('d')
-        elif orientation == Orientation.WEST and dy > 0:
-            append_and_update('d')
-        elif orientation == Orientation.WEST and dy < 0:
-            append_and_update('a')
-        elif orientation == Orientation.WEST and dx > 0:
-            append_and_update('d')
-            append_and_update('d')
 
         state_queue.append('w')
     
