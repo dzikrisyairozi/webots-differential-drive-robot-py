@@ -147,12 +147,14 @@ if __name__ == "__main__":
             yaw = imu.getRollPitchYaw()[2]
             delta_yaw = abs(target_yaw - yaw)
 
+            print(target_yaw, yaw)
+
             if delta_yaw <= 0.05:
                 left_speed = 0
                 right_speed = 0
                 next_state(State.IDLE)
             else:
-                if target_yaw > abs(yaw):
+                if yaw >= 0 and yaw < target_yaw:
                     left_speed = -0.5 * max_speed
                     right_speed = 0.5 * max_speed
                 else:
