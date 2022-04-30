@@ -191,12 +191,24 @@ if __name__ == "__main__":
 
                 if orientation == Orientation.NORTH:
                     current_y += 1
+                elif orientation == Orientation.NORTH_EAST:
+                    current_x += 1
+                    current_y += 1
                 elif orientation == Orientation.EAST:
                     current_x += 1
+                elif orientation == Orientation.SOUTH_EAST:
+                    current_x += 1
+                    current_y -= 1
                 elif orientation == Orientation.SOUTH:
+                    current_y -= 1
+                elif orientation == Orientation.SOUTH_WEST:
+                    current_x -= 1
                     current_y -= 1
                 elif orientation == Orientation.WEST:
                     current_x -= 1
+                elif orientation == Orientation.NORTH_WEST:
+                    current_x -= 1
+                    current_y += 1
 
                 initial = False
 
@@ -210,8 +222,12 @@ if __name__ == "__main__":
             dx = abs(x - target_x)
             dy = abs(y - target_y)
 
-            reached_x = (orientation == Orientation.EAST or orientation == Orientation.WEST) and (dx <= 0.005)
-            reached_y = (orientation == Orientation.NORTH or orientation == Orientation.SOUTH) and (dy <= 0.005)
+            diagonal_orientations = [Orientation.NORTH_EAST, Orientation.SOUTH_EAST, Orientation.NORTH_WEST, Orientation.SOUTH_WEST]
+            x_orientations = diagonal_orientations + [Orientation.EAST, Orientation.WEST]
+            y_orientations = diagonal_orientations + [Orientation.NORTH, Orientation.SOUTH]
+
+            reached_x = (orientation in x_orientations) and (dx <= 0.005)
+            reached_y = (orientation in y_orientations) and (dy <= 0.005)
 
             if (reached_x or reached_y):
                 left_speed = 0
