@@ -85,26 +85,11 @@ if __name__ == "__main__":
         ongoing_motion += 1
         turn_side = direction
 
-        if orientation is Orientation.NORTH:
-            if turn_side is Direction.RIGHT:
-                target_yaw = 1.57
-            elif turn_side is Direction.LEFT:
-                target_yaw = -1.57
-        elif orientation is Orientation.EAST:
-            if turn_side is Direction.RIGHT:
-                target_yaw = 0
-            elif turn_side is Direction.LEFT:
-                target_yaw = 3.14
-        elif orientation is Orientation.SOUTH:
-            if turn_side is Direction.RIGHT:
-                target_yaw = -1.57
-            elif turn_side is Direction.LEFT:
-                target_yaw = 1.57
-        elif orientation is Orientation.WEST:
-            if turn_side is Direction.RIGHT:
-                target_yaw = 3.14
-            elif turn_side is Direction.LEFT:
-                target_yaw = 0
+        PI = 3.14159265359
+
+        orientation_index = get_next_orientation(orientation).value if turn_side is Direction.RIGHT \
+                else get_prev_orientation(orientation).value
+        target_yaw = round((PI - (PI / 4 * orientation_index) + PI / 4), 2)
 
         rot_start_time = current_time + duration_side
         rot_end_time = rot_start_time + duration_turn
