@@ -11,9 +11,13 @@ class State(Enum):
 
 class Orientation(Enum):
     NORTH = 1
-    EAST = 2
-    SOUTH = 3
-    WEST = 4
+    NORTH_EAST = 2
+    EAST = 3
+    SOUTH_EAST = 4
+    SOUTH = 5
+    SOUTH_WEST = 6
+    WEST = 7
+    NORTH_WEST = 8
 
 def get_next_orientation(current_orientation):
     next_orientation = Orientation((current_orientation.value + 1) % len(Orientation))
