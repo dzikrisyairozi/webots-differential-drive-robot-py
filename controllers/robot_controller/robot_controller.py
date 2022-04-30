@@ -75,9 +75,6 @@ if __name__ == "__main__":
     def append_and_update(target):
         global state_queue, target_orientation
 
-        if orientation is target:
-            return
-
         state_queue.append(('t', target))
         target_orientation = target
 
