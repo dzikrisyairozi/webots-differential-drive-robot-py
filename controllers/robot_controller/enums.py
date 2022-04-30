@@ -20,12 +20,14 @@ class Orientation(Enum):
     NORTH_WEST = 8
 
 def get_next_orientation(current_orientation):
-    next_orientation = Orientation((current_orientation.value + 1) % len(Orientation))
-    return next_orientation
+    if current_orientation.value == len(Orientation):
+        return Orientation(1)
+
+    return Orientation((current_orientation.value + 1))
 
 def get_prev_orientation(current_orientation):
-    if current_orientation == 1:
+    if current_orientation.value == 1:
         return Orientation(len(Orientation))
-
-    next_orientation = Orientation((current_orientation.value - 1) % len(Orientation))
-    return next_orientation
+    
+    return Orientation((current_orientation.value - 1))
+    
