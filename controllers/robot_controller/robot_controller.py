@@ -222,20 +222,27 @@ if __name__ == "__main__":
             dx = abs(x - target_x)
             dy = abs(y - target_y)
 
-            diagonal_orientations = [Orientation.NORTH_EAST, Orientation.SOUTH_EAST, Orientation.NORTH_WEST, Orientation.SOUTH_WEST]
+            right_diagonal_orientations = [Orientation.NORTH_EAST, Orientation.SOUTH_EAST]
+            left_diagonal_orientations = [Orientation.NORTH_WEST, Orientation.SOUTH_WEST]
+            diagonal_orientations = right_diagonal_orientations + left_diagonal_orientations
+
             x_orientations = diagonal_orientations + [Orientation.EAST, Orientation.WEST]
             y_orientations = diagonal_orientations + [Orientation.NORTH, Orientation.SOUTH]
 
             reached_x = (orientation in x_orientations) and (dx <= 0.005)
             reached_y = (orientation in y_orientations) and (dy <= 0.005)
 
-            if (reached_x or reached_y):
+            if ((orientation not in diagonal_orientations and (reached_x or reached_y)) or (dx + dy <= 0.015)):
                 left_speed = 0
                 right_speed = 0
                 next_state(State.IDLE)
             else:
-                left_speed = max_speed
-                right_speed = max_speed
+                if orientation in diagonal_orientations:
+                    left_speed = max_speed * 0.75
+                    right_speed = max_speed * 0.75
+                else:
+                    left_speed = max_speed
+                    right_speed = max_speed
 
                 if orientation == Orientation.NORTH:
                     if x < target_x:
@@ -257,6 +264,16 @@ if __name__ == "__main__":
                         left_speed += A_COMPENSATION
                     elif y > target_y:
                         right_speed += A_COMPENSATION
+                elif orientation == Orientation.SOUTH_EAST or orientation == Orientation.NORTH_WEST:
+                    if dy > dx:
+                        left_speed += A_COMPENSATION * 0.75
+                    elif dy < dx:
+                        right_speed += A_COMPENSATION * 0.75
+                elif orientation == Orientation.NORTH_EAST or orientation == Orientation.SOUTH_WEST:
+                    if dy < dx:
+                        left_speed += A_COMPENSATION * 0.75
+                    elif dy > dx:
+                        right_speed += A_COMPENSATION * 0.75
 
         left_motor.setVelocity(left_speed)
         right_motor.setVelocity(right_speed)
