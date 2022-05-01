@@ -61,9 +61,9 @@ def create_edge():
                 if j - 1 >= 0 and maps[i][j-1] == 0:
                     addedge((i, j), (i, j-1), 1)
                 if j + 1 < n and i + 1 < n and maps[i+1][j+1] == 0:
-                    addedge((i, j), (i+1, j+1), 1)
+                    addedge((i, j), (i+1, j+1), sqrt(2))
                 if j - 1 >= 0 and i + 1 < n and maps[i+1][j-1] == 0:
-                    addedge((i, j), (i+1, j-1), 1)
+                    addedge((i, j), (i+1, j-1), sqrt(2))
 
 def set_heuristic():
     n = len(maps)
