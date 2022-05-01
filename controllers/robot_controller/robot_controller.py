@@ -48,7 +48,7 @@ if __name__ == "__main__":
     prev_state = None
     initial = False
 
-    route = get_route((0, 0), (0, 4))
+    route = get_route((0, 0), (7, 7))
     current_x, current_y = route.pop(0)
     state_queue = []
 
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     for i in range (0, len(route)):
         append_state()
     
-    # print(state_queue)
+    print(state_queue)
     key, arg = state_queue.pop(0)
     orientation = Orientation.NORTH
     target_orientation = Orientation.NORTH
@@ -146,14 +146,14 @@ if __name__ == "__main__":
             yaw = imu.getRollPitchYaw()[2]
             delta_yaw = abs(target_yaw - yaw)
 
-            print(target_yaw, yaw)
+            # print(target_yaw, yaw)
 
             if delta_yaw <= 0.05:
                 left_speed = 0
                 right_speed = 0
                 next_state(State.IDLE)
             else:
-                if abs(target_yaw - yaw) < pi and yaw < target_yaw:
+                if delta_yaw < pi and yaw < target_yaw:
                     left_speed = -0.5 * max_speed
                     right_speed = 0.5 * max_speed
                 else:
@@ -212,7 +212,7 @@ if __name__ == "__main__":
             reached_y = (orientation in y_orientations) and (dy <= 0.005)
 
             if ((orientation not in diagonal_orientations and (reached_x or reached_y)) \
-                or (dx + dy <= 0.015)):
+                or (dx + dy <= 0.02)):
                 left_speed = 0
                 right_speed = 0
                 next_state(State.IDLE)
