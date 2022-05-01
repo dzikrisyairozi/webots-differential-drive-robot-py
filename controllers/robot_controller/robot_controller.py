@@ -5,6 +5,7 @@
 from a_star import get_route
 from controller import Robot as WebotsRobot, GPS, Keyboard, InertialUnit
 from enums import *
+from math import pi
 
 if __name__ == "__main__":
 
@@ -47,7 +48,7 @@ if __name__ == "__main__":
     prev_state = None
     initial = False
 
-    route = get_route((0, 0), (7, 7))
+    route = get_route((0, 0), (0, 4))
     current_x, current_y = route.pop(0)
     state_queue = []
 
@@ -59,15 +60,13 @@ if __name__ == "__main__":
     
     def update_orientation(direction):
         global orientation
-        orientation = get_next_orientation(orientation) if direction == Direction.RIGHT else get_prev_orientation(orientation)
+        orientation = get_next_orientation(orientation) if direction == Direction.RIGHT \
+            else get_prev_orientation(orientation)
 
     def turn_to(target_orientation):
         global robot_state, orientation, ongoing_motion, target_yaw
         ongoing_motion += 1
-
-        PI = 3.14159265359
-
-        target_yaw = round((PI - (PI / 4 * target_orientation.value) + PI / 4), 2)
+        target_yaw = round((pi - (pi / 4 * target_orientation.value) + pi / 4), 2)
 
         next_state(State.TURN)
         orientation = target_orientation
@@ -154,7 +153,7 @@ if __name__ == "__main__":
                 right_speed = 0
                 next_state(State.IDLE)
             else:
-                if yaw >= 0 and yaw < target_yaw:
+                if abs(target_yaw - yaw) < pi and yaw < target_yaw:
                     left_speed = -0.5 * max_speed
                     right_speed = 0.5 * max_speed
                 else:
@@ -212,7 +211,8 @@ if __name__ == "__main__":
             reached_x = (orientation in x_orientations) and (dx <= 0.005)
             reached_y = (orientation in y_orientations) and (dy <= 0.005)
 
-            if ((orientation not in diagonal_orientations and (reached_x or reached_y)) or (dx + dy <= 0.015)):
+            if ((orientation not in diagonal_orientations and (reached_x or reached_y)) \
+                or (dx + dy <= 0.015)):
                 left_speed = 0
                 right_speed = 0
                 next_state(State.IDLE)
