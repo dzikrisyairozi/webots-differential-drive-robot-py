@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.5221124101197039 -0.5549888964494413 0.6476001513409532 4.347365187298853
-  position 0.9397953832023138 1.3425481017869176 3.881423371742567
+  orientation -0.49594962415755495 -0.6525463947458522 0.572902411412424 4.43345204658276
+  position 0.44615936484583124 0.9727057483310394 2.2650925724800186
   follow "robot"
 }
 TexturedBackground {
@@ -125,30 +125,6 @@ DEF robot Robot {
   }
   controller "robot_controller"
 }
-DEF PINK_BOX Solid {
-  translation 0.76 1.42 0.05
-  rotation 0 0 1 1.5708
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 1 0.1 0.3
-        roughness 0.16827074099999995
-        metalness 0
-      }
-      geometry DEF BOX3 Box {
-        size 0.2 0.4 0.2
-      }
-    }
-  ]
-  name "red box"
-  boundingObject Shape {
-    appearance PBRAppearance {
-      roughness 1.1102230246251565e-16
-      metalness 0
-    }
-    geometry USE BOX3
-  }
-}
 DEF wall_x Solid {
   translation 0.375 0.175 0
   children [
@@ -213,6 +189,23 @@ DEF wall_y Solid {
     }
   ]
   name "wall(1)"
+}
+DEF wall_y Solid {
+  translation 0.5125 0.875 -7.4934e-07
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.35 0.25
+      }
+    }
+  ]
+  name "wall(6)"
 }
 DEF wall_y Solid {
   translation 2 0.375 -7.6379e-06
