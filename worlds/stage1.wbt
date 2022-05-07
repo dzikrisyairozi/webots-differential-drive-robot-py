@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.21486952875366414 -0.028836402984788748 0.9762169571750314 3.4021468310450462
-  position 2.677190191405949 1.2216242983130017 1.406517692187379
+  orientation -0.4804844807484849 -0.04017088605355922 0.8760827379155071 3.2878271408675963
+  position 4.398991113995612 1.4570569587424573 5.647075689783641
   follow "robot"
 }
 TexturedBackground {
@@ -11,8 +11,8 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 RectangleArena {
-  translation 1 1 0
-  floorSize 2 2
+  translation 1.5 1.5 0
+  floorSize 3 3
 }
 DEF robot Robot {
   translation 0.125 0.125 -0.000206461

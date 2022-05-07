@@ -48,7 +48,7 @@ if __name__ == "__main__":
     prev_state = None
     initial = False
 
-    route = get_route((0, 0), (7, 7))
+    route = get_route((0, 0), (9, 9))
     current_x, current_y = route.pop(0)
     state_queue = []
 
