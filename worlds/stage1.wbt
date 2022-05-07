@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.4804844807484849 -0.04017088605355922 0.8760827379155071 3.2878271408675963
-  position 4.398991113995612 1.4570569587424573 5.647075689783641
+  orientation -0.4786291800217311 -0.600414476039501 0.6406376237733284 4.495518066526412
+  position 0.16409450601566813 1.0910550333035238 2.3554504527536473
   follow "robot"
 }
 TexturedBackground {
@@ -148,4 +148,20 @@ DEF PINK_BOX Solid {
     }
     geometry USE BOX3
   }
+}
+DEF wall Solid {
+  translation 0.375 0.125 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.125 0.25
+      }
+    }
+  ]
+  name "wall"
 }
