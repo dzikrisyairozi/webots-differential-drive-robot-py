@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.5793976075899147 -0.5880238616857276 0.5643813873678752 4.1819322517381075
-  position 0.8669846677961097 1.6461356288961269 5.013164401707658
+  orientation -0.561209108342754 -0.5774519579870407 0.5929532636979613 4.237245150166
+  position 1.352668639792083 1.5909323327670124 4.884629942433208
   follow "robot"
 }
 TexturedBackground {
@@ -223,6 +223,22 @@ DEF wall_x Solid {
   ]
   name "wall(4)"
 }
+DEF wall_x Solid {
+  translation 2.375 1.375 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.625 0.25
+      }
+    }
+  ]
+  name "wall(14)"
+}
 DEF wall_y Solid {
   translation 0.875 0.375 -2.33179e-06
   rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
@@ -292,6 +308,23 @@ DEF wall_y Solid {
   name "wall(11)"
 }
 DEF wall_y Solid {
+  translation 1.36 2.375 -4.65918e-06
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 1 0.25
+      }
+    }
+  ]
+  name "wall(13)"
+}
+DEF wall_y Solid {
   translation 0.175 1.375 7.40095e-07
   rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
   children [
@@ -341,4 +374,37 @@ DEF wall_y Solid {
     }
   ]
   name "wall(3)"
+}
+DEF wall_y Solid {
+  translation 1.85 1.375 -6.84642e-06
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.575 0.25
+      }
+    }
+  ]
+  name "wall(16)"
+}
+DEF wall_x Solid {
+  translation 1.875 0.625 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.625 0.25
+      }
+    }
+  ]
+  name "wall(15)"
 }
