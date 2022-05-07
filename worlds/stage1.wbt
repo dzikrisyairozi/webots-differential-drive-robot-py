@@ -3,7 +3,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.5785834305573435 -0.4925866659329616 0.6500766035088054 4.1525792186931145
-  position 0.46530844621824113 0.4478595488485657 1.6914484542365622
+  position 0.4721699411395033 0.4903246705054813 2.0598182751519762
   follow "robot"
 }
 TexturedBackground {
@@ -166,7 +166,7 @@ DEF wall Solid {
   name "wall"
 }
 DEF wall Solid {
-  translation 0.6 0.375 -1.02859e-06
+  translation 0.725 0.375 -1.63365e-06
   rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
   children [
     Shape {
@@ -176,7 +176,7 @@ DEF wall Solid {
         metalness 0
       }
       geometry Box {
-        size 0.125 0.575 0.25
+        size 0.125 0.825 0.25
       }
     }
   ]
