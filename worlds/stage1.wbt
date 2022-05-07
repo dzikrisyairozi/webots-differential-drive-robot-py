@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.553823194232094 -0.5894344832920774 0.5880874590031333 4.260093077395757
-  position 0.2966397436287227 1.9663499303799632 5.587990242963215
+  orientation -0.6037490647719115 -0.5205554459832814 0.6037458856540466 4.101505851597279
+  position 1.2907245104179086 1.548609346792492 5.336898825318982
   follow "robot"
 }
 TexturedBackground {
@@ -173,6 +173,23 @@ DEF wall_x Solid {
     }
   ]
   name "wall(9)"
+}
+DEF wall_x Solid {
+  translation 1.3725 1.725 0
+  rotation 0 1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.825 0.25
+      }
+    }
+  ]
+  name "wall(12)"
 }
 DEF wall_x Solid {
   translation 1.125 0.5 0
