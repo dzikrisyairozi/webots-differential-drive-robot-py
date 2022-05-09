@@ -48,7 +48,7 @@ if __name__ == "__main__":
     prev_state = None
     initial = False
 
-    route = get_route((0, 0), (0, 6))
+    route = get_route((0, 0), (7, 11))
     current_x, current_y = route.pop(0)
     state_queue = []
 
@@ -64,9 +64,19 @@ if __name__ == "__main__":
             else get_prev_orientation(orientation)
 
     def turn_to(target_orientation):
-        global robot_state, orientation, ongoing_motion, target_yaw
+        global robot_state, orientation, ongoing_motion, target_yaw, target_direction
         ongoing_motion += 1
         target_yaw = round((pi - (pi / 4 * target_orientation.value) + pi / 4), 2)
+
+        prev_orientartion = orientation
+        turn_to_target = prev_orientartion.value - target_orientation.value
+
+        if turn_to_target == 0:
+            target_direction = -1
+        elif turn_to_target < -4 or (turn_to_target > 0 and turn_to_target < 4):
+            target_direction = Direction.LEFT
+        else:
+            target_direction = Direction.RIGHT
 
         next_state(State.TURN)
         orientation = target_orientation
@@ -113,6 +123,7 @@ if __name__ == "__main__":
     key, arg = state_queue.pop(0)
     orientation = Orientation.NORTH
     target_orientation = Orientation.NORTH
+    target_direction = None
     current_x = 0
     current_y = 0
     ongoing_motion = 0
@@ -134,6 +145,7 @@ if __name__ == "__main__":
         right_speed = 0
 
         if current_state == State.IDLE:
+            target_direction = None
             left_speed = 0
             right_speed = 0
             ongoing_motion -= 1
@@ -144,16 +156,21 @@ if __name__ == "__main__":
 
         elif current_state == State.TURN:
             yaw = imu.getRollPitchYaw()[2]
-            delta_yaw = abs(target_yaw - yaw)
+            delta_yaw = target_yaw - yaw
 
-            # print(target_yaw, yaw)
+            # print(target_yaw, yaw, delta_yaw, target_direction, orientation)
 
-            if delta_yaw <= 0.05:
+            if abs(delta_yaw) <= 0.05:
                 left_speed = 0
                 right_speed = 0
                 next_state(State.IDLE)
             else:
-                if delta_yaw < pi and yaw < target_yaw:
+                if abs(delta_yaw) < 0.25 and target_direction == -1:
+                    if delta_yaw < 0:
+                        target_direction = Direction.RIGHT
+                    else:
+                        target_direction = Direction.LEFT
+                if target_direction == Direction.LEFT:
                     left_speed = -0.5 * max_speed
                     right_speed = 0.5 * max_speed
                 else:
@@ -212,7 +229,7 @@ if __name__ == "__main__":
             reached_y = (orientation in y_orientations) and (dy <= 0.005)
 
             if ((orientation not in diagonal_orientations and (reached_x or reached_y)) \
-                or (dx + dy <= 0.02)):
+                or (dx + dy <= 0.03)):
                 left_speed = 0
                 right_speed = 0
                 next_state(State.IDLE)
