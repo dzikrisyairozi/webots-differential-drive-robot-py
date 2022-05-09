@@ -48,7 +48,7 @@ if __name__ == "__main__":
     prev_state = None
     initial = False
 
-    route = get_route((0, 0), (7, 11))
+    route = get_route((0, 0), (10, 8))
     current_x, current_y = route.pop(0)
     state_queue = []
 
@@ -170,6 +170,7 @@ if __name__ == "__main__":
                         target_direction = Direction.RIGHT
                     else:
                         target_direction = Direction.LEFT
+                
                 if target_direction == Direction.LEFT:
                     left_speed = -0.5 * max_speed
                     right_speed = 0.5 * max_speed
