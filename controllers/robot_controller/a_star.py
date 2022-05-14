@@ -2,15 +2,6 @@ from collections import defaultdict
 from math import sqrt, pow
 from queue import PriorityQueue
 
-# maps = [[0, 0, 0, 0, 0, 0, 0, 1],
-#         [0, 1, 1, 1, 0, 0, 0, 0],
-#         [0, 0, 0, 0, 0, 1, 1, 0],
-#         [0, 1, 0, 0, 0, 1, 1, 0],
-#         [0, 1, 0, 0, 0, 0, 0, 0],
-#         [0, 1, 0, 0, 0, 0, 1, 0],
-#         [0, 0, 0, 0, 0, 1, 1, 0],
-#         [0, 0, 0, 0, 0, 0, 0, 0]]
-
 maps = [[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
         [1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0],
         [0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
@@ -38,7 +29,7 @@ def a_star_search(source, target):
     p_queue.put((dict[source], source, 0, None))
     
     while p_queue.empty() == False:
-        current_cost, current_node, prev_cost, prev_node = p_queue.get()
+        total_cost, current_node, prev_cost, prev_node = p_queue.get()
 
         if current_node not in visited:
             visited.append(current_node)
@@ -56,7 +47,7 @@ def a_star_search(source, target):
                 p_queue.put((dict[node] + total_cost, node, total_cost, current_node))
 
     route.reverse()
-    return visited, traced, route
+    return visited, traced, route, total_cost
 
 def addedge(x, y, cost):
     graph[x].append((y, cost))
@@ -88,7 +79,8 @@ def set_heuristic():
 def get_route(start, finish):
     create_edge()
     set_heuristic()
-    visited, traced, route = a_star_search(start, finish)
-    print(route)
+    visited, traced, route, total_cost = a_star_search(start, finish)
+    print("The path followed:\n", route)
+    print("Total cost to reach the goal node: ", total_cost)
     return route
     
