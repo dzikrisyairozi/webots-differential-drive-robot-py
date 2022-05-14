@@ -1,0 +1,556 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.6819309408505994 -0.0006219492739124478 0.7314163008094071 3.142930963854697
+  position 1.7313220777165728 1.1715084954460182 5.879999705526059
+  follow "robot"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  translation 1.5 1.5 0
+  floorSize 3 3
+}
+DEF robot Robot {
+  translation 0.125 0.125 -0.000206461
+  rotation 0 0 1 3.14159
+  children [
+    InertialUnit {
+    }
+    GPS {
+    }
+    DEF body Transform {
+      translation 0 0 0.0415
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.08
+            radius 0.045
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 14.809636955439288
+        anchor 0.045 0 0.025
+      }
+      device [
+        RotationalMotor {
+          name "motor_1"
+        }
+        PositionSensor {
+          name "ps_1"
+        }
+      ]
+      endPoint Solid {
+        translation 0.045 0 0.025
+        rotation 0.6695916733809867 0.3225019141808173 0.6690586717833937 2.5171856395186225
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.01
+              radius 0.025
+            }
+          }
+        ]
+        boundingObject USE wheel
+        physics DEF wheel_physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 37.23808496491429
+        anchor -0.045 0 0.025
+      }
+      device [
+        RotationalMotor {
+          name "motor_2"
+        }
+        PositionSensor {
+          name "ps_2"
+        }
+      ]
+      endPoint Solid {
+        translation -0.045 0 0.025
+        rotation -0.22290632583766148 0.949054588194654 -0.22272889019664627 1.6222662198297526
+        children [
+          USE wheel
+        ]
+        name "solid(1)"
+        boundingObject USE wheel
+        physics USE wheel_physics
+      }
+    }
+    Solid {
+      translation 0.015 -0.045 0.07
+      children [
+        DEF eye Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+        }
+      ]
+      name "solid(2)"
+    }
+    Solid {
+      translation -0.015 -0.045 0.07
+      children [
+        USE eye
+      ]
+      name "solid(3)"
+    }
+  ]
+  boundingObject USE body
+  physics Physics {
+  }
+  controller "robot_controller"
+}
+DEF wall_x Solid {
+  translation 0.375 0.175 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.375 0.25
+      }
+    }
+  ]
+  name "wall"
+}
+DEF wall_x Solid {
+  translation 0.875 2.5 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.375 0.25
+      }
+    }
+  ]
+  name "wall(17)"
+}
+DEF wall_x Solid {
+  translation 0.375 2.5 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.375 0.25
+      }
+    }
+  ]
+  name "wall(20)"
+}
+DEF wall_x Solid {
+  translation 0.225 2.625 0
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.4125 0.25
+      }
+    }
+  ]
+  name "wall(21)"
+}
+DEF wall_x Solid {
+  translation 2.675 2.375 0
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.625 0.25
+      }
+    }
+  ]
+  name "wall(25)"
+}
+DEF wall_x Solid {
+  translation 1.375 2.87 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.25 0.25
+      }
+    }
+  ]
+  name "wall(19)"
+}
+DEF wall_x Solid {
+  translation 1.875 1.875 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.125 0.25
+      }
+    }
+  ]
+  name "wall(24)"
+}
+DEF wall_x Solid {
+  translation 2.375 2.87 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.25 0.25
+      }
+    }
+  ]
+  name "wall(22)"
+}
+DEF wall_x Solid {
+  translation 1.875 2.5 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.375 0.25
+      }
+    }
+  ]
+  name "wall(18)"
+}
+DEF wall_x Solid {
+  translation 0.375 1.575 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.525 0.25
+      }
+    }
+  ]
+  name "wall(8)"
+}
+DEF wall_x Solid {
+  translation 0.8625 1.125 0
+  rotation 0 1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.525 0.25
+      }
+    }
+  ]
+  name "wall(9)"
+}
+DEF wall_x Solid {
+  translation 1.3725 1.735 0
+  rotation 0 1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 1.35 0.25
+      }
+    }
+  ]
+  name "wall(12)"
+}
+DEF wall_x Solid {
+  translation 1.375 0.5 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.375 0.25
+      }
+    }
+  ]
+  name "wall(2)"
+}
+DEF wall_x Solid {
+  translation 1.875 0.625 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.625 0.25
+      }
+    }
+  ]
+  name "wall(4)"
+}
+DEF wall_x Solid {
+  translation 2.375 1.375 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.625 0.25
+      }
+    }
+  ]
+  name "wall(14)"
+}
+DEF wall_x Solid {
+  translation 2.375 2.25 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.376 0.25
+      }
+    }
+  ]
+  name "wall(23)"
+}
+DEF wall_y Solid {
+  translation 0.875 0.375 -2.33179e-06
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 1.125 0.25
+      }
+    }
+  ]
+  name "wall(1)"
+}
+DEF wall_y Solid {
+  translation 0.6375 0.875 -1.26131e-06
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.575 0.25
+      }
+    }
+  ]
+  name "wall(6)"
+}
+DEF wall_y Solid {
+  translation 1.0875 1.125 -3.35578e-06
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.575 0.25
+      }
+    }
+  ]
+  name "wall(10)"
+}
+DEF wall_y Solid {
+  translation 0.6 1.875 -1.12174e-06
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.575 0.25
+      }
+    }
+  ]
+  name "wall(11)"
+}
+DEF wall_y Solid {
+  translation 1.36 2.375 -4.65918e-06
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 1 0.25
+      }
+    }
+  ]
+  name "wall(13)"
+}
+DEF wall_y Solid {
+  translation 0.175 1.375 7.40095e-07
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.35 0.25
+      }
+    }
+  ]
+  name "wall(7)"
+}
+DEF wall_y Solid {
+  translation 2.25 0.375 -8.8014e-06
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.825 0.25
+      }
+    }
+  ]
+  name "wall(5)"
+}
+DEF wall_y Solid {
+  translation 1.6 0.625 -5.68287e-06
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.575 0.25
+      }
+    }
+  ]
+  name "wall(3)"
+}
+DEF wall_y Solid {
+  translation 1.85 1.375 -6.84642e-06
+  rotation -2.327229999987396e-06 -2.327229999987396e-06 -0.9999999999945841 -1.5707953071795862
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.95 0.25
+      }
+    }
+  ]
+  name "wall(16)"
+}
+DEF wall_x Solid {
+  translation 1.875 0.625 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.625 0.25
+      }
+    }
+  ]
+  name "wall(15)"
+}
