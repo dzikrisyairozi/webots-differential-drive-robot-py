@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.6476679382155962 -0.024485015270475474 0.7615292022206132 3.199160175192683
-  position 3.6380915303682517 2.4538767560890333 7.933209075940968
+  orientation -0.5980080938001556 0.0054350488785952005 0.8014716339292313 3.1270291495522438
+  position 5.5179448783861424 2.2822031110445367 11.961650121816605
   follow "robot"
 }
 TexturedBackground {
@@ -142,6 +142,22 @@ DEF wall_x Solid {
   name "wall"
 }
 DEF wall_x Solid {
+  translation 4.355 4.805 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.375 0.25
+      }
+    }
+  ]
+  name "wall(20)"
+}
+DEF wall_x Solid {
   translation 0.385 1.695 0
   rotation 0 1 0 0
   children [
@@ -176,6 +192,23 @@ DEF wall_x Solid {
   name "wall(2)"
 }
 DEF wall_x Solid {
+  translation 1.835 4.205 0
+  rotation 0 1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.775 0.25
+      }
+    }
+  ]
+  name "wall(17)"
+}
+DEF wall_x Solid {
   translation 2.635 1.095 0
   rotation 0 1 0 0
   children [
@@ -191,6 +224,23 @@ DEF wall_x Solid {
     }
   ]
   name "wall(6)"
+}
+DEF wall_x Solid {
+  translation 3.135 3.355 0
+  rotation 0 1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 1.5 0.25
+      }
+    }
+  ]
+  name "wall(14)"
 }
 DEF wall_x Solid {
   translation 4.135 0.845 0
@@ -209,6 +259,23 @@ DEF wall_x Solid {
   ]
   name "wall(8)"
 }
+DEF wall_x Solid {
+  translation 0.625 3.655 0
+  rotation 0 1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 1 0.25
+      }
+    }
+  ]
+  name "wall(18)"
+}
 DEF wall_y Solid {
   translation 0.8525 0.375 0
   rotation 0 0 1 1.5708
@@ -225,6 +292,23 @@ DEF wall_y Solid {
     }
   ]
   name "wall(21)"
+}
+DEF wall_y Solid {
+  translation 4.13248 4.625 0
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.575 0.25
+      }
+    }
+  ]
+  name "wall(19)"
 }
 DEF wall_y Solid {
   translation 2.4025 1.625 0
@@ -278,6 +362,23 @@ DEF wall_y Solid {
   name "wall(10)"
 }
 DEF wall_y Solid {
+  translation 4.6325 2.125 0
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.775 0.25
+      }
+    }
+  ]
+  name "wall(13)"
+}
+DEF wall_y Solid {
   translation 4.5725 0.625 0
   rotation 0 0 1 1.5708
   children [
@@ -327,6 +428,40 @@ DEF wall_y Solid {
     }
   ]
   name "wall(11)"
+}
+DEF wall_y Solid {
+  translation 2.3425 3.875 0
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 1.5 0.25
+      }
+    }
+  ]
+  name "wall(16)"
+}
+DEF wall_y Solid {
+  translation 3.8625 3.625 0
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 1.5 0.25
+      }
+    }
+  ]
+  name "wall(15)"
 }
 DEF wall_y Solid {
   translation 3.1025 2.625 0
