@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.7013317770251549 0.004620355994730519 0.71282002696699 3.132204673853327
-  position 1.5716812900550834 1.717814669063582 6.454704604151456
+  orientation -0.645931483371225 -0.008663679399249275 0.7633462251489268 3.162073369830877
+  position 2.6869010857161415 1.5170267154432904 10.450290044948208
   follow "robot"
 }
 TexturedBackground {
@@ -126,7 +126,7 @@ DEF robot Robot {
   controller "robot_controller"
 }
 DEF wall_x Solid {
-  translation 0.375 0.175 0
+  translation 0.625 0.175 0
   children [
     Shape {
       appearance PBRAppearance {
@@ -141,8 +141,59 @@ DEF wall_x Solid {
   ]
   name "wall"
 }
+DEF wall_x Solid {
+  translation 0.885 0.495 0
+  rotation 0 1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.375 0.25
+      }
+    }
+  ]
+  name "wall(1)"
+}
+DEF wall_x Solid {
+  translation 0.885 1.895 0
+  rotation 0 1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.575 0.25
+      }
+    }
+  ]
+  name "wall(2)"
+}
+DEF wall_x Solid {
+  translation 0.385 1.695 0
+  rotation 0 1 0 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.775 0.25
+      }
+    }
+  ]
+  name "wall(4)"
+}
 DEF wall_y Solid {
-  translation 0.5125 0.375 0
+  translation 0.8525 0.375 0
   rotation 0 0 1 1.5708
   children [
     Shape {
@@ -152,9 +203,26 @@ DEF wall_y Solid {
         metalness 0
       }
       geometry Box {
-        size 0.125 0.4 0.25
+        size 0.125 0.575 0.25
       }
     }
   ]
   name "wall(21)"
+}
+DEF wall_y Solid {
+  translation 0.4625 2.125 0
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.125 0.925 0.25
+      }
+    }
+  ]
+  name "wall(3)"
 }
