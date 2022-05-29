@@ -132,5 +132,3 @@ def get_route(start, finish):
     print("The path followed:\n", route)
     print("Total cost to reach the goal node: ", total_cost)
     return route
-
-get_route((0, 0), (19, 19))

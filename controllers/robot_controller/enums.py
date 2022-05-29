@@ -30,4 +30,3 @@ def get_prev_orientation(current_orientation):
         return Orientation(len(Orientation))
     
     return Orientation((current_orientation.value - 1))
-    
