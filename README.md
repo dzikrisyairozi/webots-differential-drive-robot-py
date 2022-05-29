@@ -24,6 +24,22 @@ Kelompok 7 - Kecerdasan Buatan F
 2. Choose and open world from `/worlds` folder
 3. Start the simulation
 
+## Documentation
+
+Stage 1
+
+![Screenshot from 2022-05-09 21-19-15](https://user-images.githubusercontent.com/67451619/170867056-970092eb-2f87-41d5-83de-7256dc2244fb.png)
+
+Stage 2
+
+![Screenshot from 2022-05-27 01-57-18](https://user-images.githubusercontent.com/67451619/170867034-3bd949c3-ff02-4b88-a406-79af0f43b7c6.png)
+
+Stage 3
+
+![Screenshot from 2022-05-27 01-53-13](https://user-images.githubusercontent.com/67451619/170867042-e0cbd62b-d599-4a2e-a02f-e3cc730d6b65.png)
+
+
+
 ## Reference
 
 - [Safe Navigation of Mobile Robot Using A\* Algorithm](https://www.ripublication.com/ijaer17/ijaerv12n16_16.pdf)
